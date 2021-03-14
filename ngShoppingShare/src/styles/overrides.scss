@@ -1,0 +1,14 @@
+.navbar-dark .navbar-brand {
+  color: var(--light) !important;
+  &:hover {
+    filter: brightness(85%);
+  }
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  color: var(--light) !important;
+  filter: brightness(85%);
+  &:hover {
+    filter: brightness(100%);
+  }
+}

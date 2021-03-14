@@ -1,0 +1,28 @@
+{
+  "": {
+    "": "Mensagem de erro não definida."
+  },
+  "Username": {
+    "required": "Usuário é obrigatório.",
+    "email": "O e-mail digitado está inválido.",
+    "minlength": "Usuário deve ter no mínimo 6 caracteres."
+  },
+  "Password": {
+    "required": "Senha é obrigatório.",
+    "minlength": "Senha deve ter no mínimo 6 caracteres."
+  },
+  "FirstName": {
+    "required": "Nome é obrigatório."
+  },
+  "LastName": {
+    "required": "Sobrenome é obrigatório."
+  },
+  "Email": {
+    "required": "E-mail é obrigatório.",
+    "email": "O e-mail digitado está inválido."
+  },
+  "RepeatPassword": {
+    "required": "Confirmar a senha é obrigatório.",
+    "notequal": "As senhas não coincidem."
+  }
+}

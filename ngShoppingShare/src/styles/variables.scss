@@ -1,0 +1,13 @@
+$primary: #920000;
+$secondary: #920000;
+$light: #e4dceb;
+$dark: #3f0069; /* 242424 */
+$white: #eeeeee;
+
+:root {
+  --bs-primary: $primary;
+  --bs-secondary: $secondary;
+  --bs-light: $light;
+  --bs-dark: $dark;
+  --bs-white: $white;
+}

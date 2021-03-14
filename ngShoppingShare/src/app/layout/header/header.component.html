@@ -1,0 +1,23 @@
+<header class="w-100">
+  <nav class="d-flex flex-row navbar navbar-dark bg-dark px-3">
+    <a class="d-flex navbar-brand" [routerLink]="['/']">
+      <img src="../../../assets/images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+      <span class="app-title ms-3 my-auto">Shopping Share</span>
+    </a>
+    <div class="d-flex justify-content-end flex-grow-1">
+      <div class="ms-auto">
+        <ul class="navbar-nav d-flex flex-row">
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="nav-link" [routerLink]="['auth', 'login']">Iniciar sessão</a>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <a class="nav-link" (click)="onLogoutClick()">Logout</a>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <img src="../../../assets/images/profile.svg" width="50" height="50">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>

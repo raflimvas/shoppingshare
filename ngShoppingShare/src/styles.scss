@@ -37,5 +37,15 @@ $ngShoppingShare-theme: mat-light-theme((
 
 body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 
+/* Importing custom variables */
+@import 'styles/variables.scss';
+
 /* Importing Bootstrap SCSS file. */
 @import '~bootstrap/scss/bootstrap';
+
+/* Importing base styles */
+@import 'styles/base.scss';
+
+@import 'styles/fonts.scss';
+
+@import 'styles/overrides.scss';

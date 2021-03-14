@@ -1,0 +1,18 @@
+<div *ngIf="isOpened" class="app-dialog-conteiner">
+  <div class="app-dialog">
+    <div class="app-dialog-header border-bottom px-3">
+      <span class="flex-grow-1 my-auto">{{ title }}</span>
+      <button type="button" class="border-0" (click)="cancel()">
+        <img src="../../../assets/images/close.svg" width="20" height="20">
+      </button>
+    </div>
+    <div class="flex-grow-1 p-3">
+      <ng-content select="[dialogContent]"></ng-content>
+    </div>
+    <div class="app-dialog-footer border-top">
+      <div class="d-flex flex-row my-auto ms-auto me-3">
+        <ng-content select="[dialogButton]"></ng-content>
+      </div>
+    </div>
+  </div>
+</div>

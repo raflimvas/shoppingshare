@@ -1,0 +1,17 @@
+.nav-item {
+  margin: auto 10px;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+  cursor: pointer;
+  color: var(--bs-white) !important;
+}
+
+.navbar-brand {
+  >img {
+    margin-right: 15px;
+  }
+  >span {
+    color: var(--bs-white);
+  }
+}

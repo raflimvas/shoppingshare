@@ -1,0 +1,41 @@
+<div class="bg-login"></div>
+<div class="d-flex flex-column content">
+  <div class="d-flex flex-row w-100 p-5">
+    <a class="d-flex brand" [routerLink]="['/']">
+      <img src="../../../assets/images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+      <span class="app-title ms-3 my-auto">Shopping Share</span>
+    </a>
+  </div>
+  <div class="d-flex w-100 h-100">
+    <div class="d-flex flex-column inner-content px-5 col-8 col-md-5 col-lg-4 col-xl-3">
+      <div class="d-flex w-100 my-5">
+        <h2 class="m-auto">Iniciar sessão</h2>
+      </div>
+      <form [formGroup]="formGroup">
+        <div class="form-floating mb-3">
+          <input type="email" id="input-username" class="form-control mb-2" placeholder="Usuário"
+            formControlName="Username" [ngClass]="getValidationClass('Username')">
+          <label for="input-username">Usuário</label>
+          <app-validation-message name="Username" [formGroup]="formGroup"></app-validation-message>
+        </div>
+        <div class="form-floating mb-3">
+          <input type="password" id="input-password" class="form-control mb-2" placeholder="Senha"
+            formControlName="Password" [ngClass]="getValidationClass('Password')">
+          <label for="input-password">Senha</label>
+          <app-validation-message name="Password" [formGroup]="formGroup"></app-validation-message>
+        </div>
+        <div class="w-100 mb-3">
+          <input id="remember-username" type="checkbox" class="form-check-input" value="" formControlName="RememberUsername">
+          <label class="form-check-label" for="remember-username">
+            Lembrar usuário?
+          </label>
+        </div>
+        <div class="d-flex w-100">
+          <button type="submit" class="btn btn-primary mx-auto" (click)="onFormSubmit()" [disabled]="formGroup.invalid">
+            <fa-icon [icon]="loginIcon" size="2x"></fa-icon>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
