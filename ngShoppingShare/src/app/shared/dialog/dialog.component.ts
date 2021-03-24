@@ -1,6 +1,6 @@
-import { AfterViewInit, Component, ContentChildren, EventEmitter, Input, Output, QueryList } from "@angular/core";
-import { DialogButtonDirective } from "./dialog-button.directive";
-import { DialogResult } from "./dialog-result.model";
+import { Component, ContentChildren, EventEmitter, Input, Output, QueryList } from '@angular/core';
+import { DialogButtonDirective } from './dialog-button.directive';
+import { DialogResult } from './dialog-result.model';
 
 @Component({
   selector: 'app-dialog',

@@ -1,9 +1,13 @@
-import { Component, ElementRef } from "@angular/core";
-import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
-import { DisableHeader } from "src/app/shared/decorators/disable-header.decorator";
-import { UserSessionService } from "src/app/shared/services/usersession.service";
-import error_messages from '../../../assets/error-messages.json';
+import { Component } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { faArrowCircleLeft } from '@fortawesome/free-solid-svg-icons';
+import { DisableHeader } from '@shared/decorators/disable-header.decorator';
+import { UserSessionService } from '@shared/services/usersession.service';
+import error_messages from '@assets/error-messages.json';
+import { AuthService } from '../auth.service';
+import { LOGIN_DATA_ID } from '../login/login.component';
+import { Router } from '@angular/router';
+import { ToastService } from '@app/shared/services/toast.service';
 
 @Component({
   templateUrl: 'register.component.html',
@@ -16,7 +20,13 @@ export class RegisterComponent {
 
   public formGroup: FormGroup;
 
-  constructor(formBuilder: FormBuilder, private userSessionService: UserSessionService) {
+  constructor(
+    formBuilder: FormBuilder,
+    private userSessionService: UserSessionService,
+    private authService: AuthService,
+    private toastService: ToastService,
+    private router: Router
+  ) {
     this.formGroup = formBuilder.group({
       FirstName: [ null, [ Validators.required ] ],
       LastName: [ null, [ Validators.required ] ],
@@ -43,13 +53,33 @@ export class RegisterComponent {
 
   public getValidationClass(name: string): string {
     const control = this.formGroup.controls[name];
-    if (control.touched && !control.valid) return 'is-invalid';
-    else if (control.touched && control.valid) return 'is-valid';
-    else return '';
+    if (name == 'RepeatPassword') {
+      if (control.touched && (!control.valid || this.formGroup.hasError('notequal'))) return 'is-invalid';
+      else if (control.touched && control.valid) return 'is-valid';
+      else return '';
+    } else {
+      if (control.touched && !control.valid) return 'is-invalid';
+      else if (control.touched && control.valid) return 'is-valid';
+      else return '';
+    }
   }
 
   public onFormSubmit(): void {
-
+    this.authService.register({
+      nome: `${this.formGroup.value.FirstName} ${this.formGroup.value.LastName}`,
+      email: this.formGroup.value.Email,
+      senha: this.formGroup.value.Password
+    }).subscribe(
+      x => {
+        if (x.message.search('succesfully') > 0) {
+          localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Email, remember: false }));
+          this.toastService.success('Sucesso', 'Conta criada com sucesso!')
+          this.router.navigate(['auth', 'login']);
+        }
+      },
+      err => { console.error(err) },
+      () => { }
+    );
   }
 
   public onBack(): void {

@@ -1,5 +1,5 @@
-import { Directive, ElementRef, EmbeddedViewRef, EventEmitter, Input, Output, Renderer2, TemplateRef } from "@angular/core";
-import { DialogResultAction } from "./dialog-result.model";
+import { Directive, ElementRef, EventEmitter, Input, Renderer2 } from '@angular/core';
+import { DialogResultAction } from './dialog-result.model';
 
 @Directive({
   selector: '[dialogButton]'

@@ -1,23 +1,44 @@
-import { Injectable } from "@angular/core";
-import { Observable, of } from "rxjs";
+import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
+import { Observable, of, throwError } from 'rxjs';
+import { map, catchError } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
+import jwt_decode from 'jwt-decode';
+import { User } from '@app/models/user.model';
 
-const TOKEN_STORAGE_ID = 'login_token';
+const TOKEN_STORAGE_ID = 'access_token';
 
 @Injectable()
 export class UserSessionService {
 
-  constructor() { }
+  constructor(private http: HttpClient) { }
+
+  public get token(): string {
+    return sessionStorage.getItem(TOKEN_STORAGE_ID);
+  }
+
+  public set token(value: string) {
+    sessionStorage.setItem(TOKEN_STORAGE_ID, value);
+  }
 
   public get isLoggedIn(): boolean {
-    return sessionStorage.getItem(TOKEN_STORAGE_ID) != null;
+    return this.token != null;
   }
 
-  public login(): Observable<any> {
-    return of({});
+  public getTokenSubject(): number {
+    try {
+      const token: any = jwt_decode(this.token);
+      return token.id_user;
+    }
+    catch (err) { }
   }
 
-  public getTokenObject(): any {
-    return {};
+  public getUserProfilePicture(): any {
+    return '/assets/images/blank-profile.png';
+  }
+
+  public clear(): void {
+    sessionStorage.removeItem(TOKEN_STORAGE_ID);
   }
 
 }
