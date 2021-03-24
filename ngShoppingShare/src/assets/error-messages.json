@@ -24,5 +24,11 @@
   "RepeatPassword": {
     "required": "Confirmar a senha é obrigatório.",
     "notequal": "As senhas não coincidem."
+  },
+  "Nome": {
+    "required": "Nome é obrigatório."
+  },
+  "Descricao": {
+    "required": "Descrição é obrigatório."
   }
 }

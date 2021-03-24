@@ -1,21 +1,21 @@
-import { Component, Input } from "@angular/core";
-import { FormControl, FormGroup } from "@angular/forms";
+import { Component, Input } from '@angular/core';
+import { FormControl, FormGroup } from '@angular/forms';
 import error_messages from '../../../assets/error-messages.json';
 
 @Component({
   selector: 'app-validation-message',
-  template: `<span *ngIf="enabled" [ngClass]="_class">{{ text }}</span>`,
+  template: `<span *ngIf='enabled' [ngClass]='class'>{{ text }}</span>`,
   styles: [ `` ]
 })
 export class ValidationMessageComponent {
 
   private _class: string = 'text-danger ';
 
-  @Input() name: string;
-  @Input() set class(value: string) {
+  @Input() public name: string;
+  @Input() public set class(value: string) {
     this._class += value;
   }
-  @Input() set formGroup(value: FormGroup) {
+  @Input() public set formGroup(value: FormGroup) {
     if (this.name) this.control = <any>value.controls[this.name];
     else this.control = value;
   }
@@ -29,6 +29,10 @@ export class ValidationMessageComponent {
       }
     }
     return '';
+  }
+
+  public get class(): string {
+    return this._class;
   }
 
   public get enabled(): boolean {
