@@ -1,3 +1,7 @@
+header {
+  height: 10vh !important;
+}
+
 .nav-item {
   margin: auto 10px;
 }
@@ -14,4 +18,52 @@
   >span {
     color: var(--bs-white);
   }
+}
+
+img.profile, img.x-profile {
+  border: 0px;
+  border-radius: 50%;
+  width: 50px;
+  height: 50px;
+  padding: 3px;
+}
+
+img.x-profile {
+  width: 80px;
+  height: 80px;
+}
+
+div.profile-menu {
+  position: fixed;
+  top: 86px;
+  right: 26px;
+  background-color: var(--bs-white);
+  width: 300px;
+  max-width: 300px;
+  z-index: 20;
+}
+
+.full-rounded {
+  font-size: small;
+  padding-top: 2px !important;
+  padding-bottom: 2px !important;
+}
+
+.overflow-auto {
+  max-height: 160px;
+  padding-right: 5px;
+}
+
+.list-card-wrap {
+
+  background: linear-gradient(to right, var(--lightred), var(--lightpurple));
+  padding: 2px;
+  margin: 5px 0px;
+  border-radius: 5px;
+
+  >.list-card {
+    background-color: var(--bs-white);
+    padding: 5px 10px;
+  }
+
 }
