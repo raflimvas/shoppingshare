@@ -1,6 +1,6 @@
 import { Component, ElementRef } from "@angular/core";
 import { AbstractControl, FormBuilder, FormControl, FormGroup, ValidationErrors, Validators } from "@angular/forms";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleLeft } from "@fortawesome/free-solid-svg-icons";
 import { DisableHeader } from "src/app/shared/decorators/disable-header.decorator";
 import { UserSessionService } from "src/app/shared/services/usersession.service";
 import error_messages from '../../../assets/error-messages.json';
@@ -12,7 +12,7 @@ import error_messages from '../../../assets/error-messages.json';
 @DisableHeader()
 export class RegisterComponent {
 
-  public loginIcon = faSignInAlt;
+  public backIcon = faArrowCircleLeft;
 
   public formGroup: FormGroup;
 
@@ -50,6 +50,10 @@ export class RegisterComponent {
 
   public onFormSubmit(): void {
 
+  }
+
+  public onBack(): void {
+    history.back();
   }
 
 }

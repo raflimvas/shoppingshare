@@ -7,11 +7,18 @@
     </a>
   </div>
   <div class="d-flex w-100 h-100">
-    <div class="d-flex flex-column inner-content px-5 col-8 col-md-5 col-lg-4 col-xl-3">
-      <div class="d-flex w-100 my-5">
-        <h2 class="m-auto">Iniciar sessão</h2>
+    <div class="d-flex flex-column inner-content col-8 col-md-5 col-lg-4 col-xl-3">
+      <div class="d-flex flex-column w-100 mb-5">
+        <div class="back-button mt-2 ms-2 pt-1 ps-1">
+          <button type="button" class="btn btn-primary btn-circle" (click)="onBack()">
+            <fa-icon [icon]="backIcon" size="2x"></fa-icon>
+          </button>
+        </div>
+        <div class="d-flex w-100 mt-1">
+          <h2 class="m-auto">Iniciar sessão</h2>
+        </div>
       </div>
-      <form [formGroup]="formGroup">
+      <form class="d-flex flex-column w-100 flex-grow-1 px-5" [formGroup]="formGroup">
         <div class="form-floating mb-3">
           <input type="email" id="input-username" class="form-control mb-2" placeholder="Usuário"
             formControlName="Username" [ngClass]="getValidationClass('Username')">
@@ -30,12 +37,15 @@
             Lembrar usuário?
           </label>
         </div>
-        <div class="d-flex w-100">
-          <button type="submit" class="btn btn-primary mx-auto" (click)="onFormSubmit()" [disabled]="formGroup.invalid">
+        <div class="d-flex flex-column flex-grow-1 w-100">
+          <button type="submit" class="btn btn-primary mx-auto mt-2" (click)="onFormSubmit()" [disabled]="formGroup.invalid">
             <fa-icon [icon]="loginIcon" size="2x"></fa-icon>
           </button>
         </div>
       </form>
+      <div class="d-flex mt-auto mb-2">
+        <span class="ms-auto me-2">Não possui conta ainda? <a [routerLink]="[ '..', 'register' ]">Cadastre-se</a>!</span>
+      </div>
     </div>
   </div>
 </div>

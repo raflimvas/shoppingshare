@@ -4,12 +4,17 @@ import error_messages from '../../../assets/error-messages.json';
 
 @Component({
   selector: 'app-validation-message',
-  template: `<span *ngIf="enabled" class="text-danger">{{ text }}</span>`,
+  template: `<span *ngIf="enabled" [ngClass]="_class">{{ text }}</span>`,
   styles: [ `` ]
 })
 export class ValidationMessageComponent {
 
+  private _class: string = 'text-danger ';
+
   @Input() name: string;
+  @Input() set class(value: string) {
+    this._class += value;
+  }
   @Input() set formGroup(value: FormGroup) {
     if (this.name) this.control = <any>value.controls[this.name];
     else this.control = value;

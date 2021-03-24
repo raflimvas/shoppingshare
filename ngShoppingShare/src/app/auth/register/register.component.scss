@@ -65,3 +65,14 @@ h2 {
   height: 45px;
   border-radius: 20px !important;
 }
+
+.back-button {
+  width: fit-content;
+  >button {
+    border-width: 0px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+}

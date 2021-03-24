@@ -1,6 +1,6 @@
 import { Component, ElementRef } from "@angular/core";
 import { FormBuilder, FormControl, FormGroup, Validators } from "@angular/forms";
-import { faSignInAlt } from "@fortawesome/free-solid-svg-icons";
+import { faArrowCircleLeft, faSignInAlt } from "@fortawesome/free-solid-svg-icons";
 import { DisableHeader } from "src/app/shared/decorators/disable-header.decorator";
 import { UserSessionService } from "src/app/shared/services/usersession.service";
 
@@ -16,6 +16,7 @@ type LoginData = { username: string, remember: boolean }
 export class LoginComponent {
 
   public loginIcon = faSignInAlt;
+  public backIcon = faArrowCircleLeft;
 
   public formGroup: FormGroup;
 
@@ -40,6 +41,10 @@ export class LoginComponent {
       localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Username, remember: true }));
     }
     this.userSessionService.login();
+  }
+
+  public onBack(): void {
+    history.back();
   }
 
 }

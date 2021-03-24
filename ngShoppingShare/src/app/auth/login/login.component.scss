@@ -27,7 +27,7 @@ $white: var(--bs-white);
 }
 
 .inner-content {
-  height: 440px;
+  height: 460px;
   margin: 0px auto;
   background-color: var(--bs-white);
 }
@@ -64,4 +64,15 @@ h2 {
   width: 70px;
   height: 70px;
   border-radius: 25px !important;
+}
+
+.back-button {
+  width: fit-content;
+  >button {
+    border-width: 0px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
 }
