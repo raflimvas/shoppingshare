@@ -1,0 +1,11 @@
+<div class="d-flex flex-column w-100 h-100 pt-5">
+  <div class="d-flex w-100">
+    <h2 class="text-center w-100">Criar lista</h2>
+  </div>
+  <div class="d-flex flex-row w-100">
+    <div class="col-6 mx-auto">
+      <app-lists-form [formGroup]="formGroup" submitText="Salvar" (submitClick)="onSubmitClicked($event)"></app-lists-form>
+    </div>
+  </div>
+</div>
+

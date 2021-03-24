@@ -1,0 +1,49 @@
+.inner-content {
+  height: 550px;
+  margin: 50px auto;
+}
+
+.brand {
+  font-size: 1.25rem;
+  text-decoration: none;
+}
+
+h2 {
+  font-family: 'clear_sansregular';
+  font-weight: bold;
+  letter-spacing: 2px;
+  font-size: x-large;
+}
+
+.form-floating input {
+  background-color: var(--bs-white);
+}
+
+.form-floating label {
+  filter: opacity(75%);
+  font-size: smaller;
+  line-height: 25px;
+  text-transform: uppercase;
+}
+
+.form-check-label {
+  line-height: 24px;
+  margin-left: 10px;
+}
+
+.btn {
+  width: 130px;
+  height: 45px;
+  border-radius: 20px !important;
+}
+
+.back-button {
+  width: fit-content;
+  >button {
+    border-width: 0px;
+    border-radius: 50%;
+    width: 32px;
+    height: 32px;
+    padding: 0;
+  }
+}
