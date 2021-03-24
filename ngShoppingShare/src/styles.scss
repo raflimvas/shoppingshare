@@ -48,4 +48,8 @@ body { font-family: Roboto, "Helvetica Neue", sans-serif; }
 
 @import 'styles/fonts.scss';
 
+@import 'styles/scrollbar.scss';
+
+@import '~ngx-toastr/toastr';
+
 @import 'styles/overrides.scss';

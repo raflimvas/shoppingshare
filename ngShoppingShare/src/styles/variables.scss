@@ -4,10 +4,13 @@ $light: #e4dceb;
 $dark: #3f0069; /* 242424 */
 $white: #eeeeee;
 
+$lightpurple: #deacff;
+$lightred: #ffaaaa;
+
+$loginbackground: url(../assets/images/login-background.jpg);
+
 :root {
-  --bs-primary: $primary;
-  --bs-secondary: $secondary;
-  --bs-light: $light;
-  --bs-dark: $dark;
-  --bs-white: $white;
+  --loginbackground: url(../assets/images/login-background.jpg);
+  --lightpurple: #deacff;
+  --lightred: #ffaaaa;
 }
