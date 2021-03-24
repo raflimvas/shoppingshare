@@ -10,7 +10,6 @@ import { AuthGuard } from './guards/auth.guard';
 import { AuthTokenInterceptor } from './interceptors/auth-token.interceptor';
 import { ContentInterceptor } from './interceptors/content.interceptor';
 import { SpinnerInterceptor } from './interceptors/spinner.interceptor';
-import { LocalDbService } from './services/localdb.service';
 import { UserSessionService } from './services/usersession.service';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { SpinnerService } from './spinner/spinner.service';

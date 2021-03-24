@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { List, ListResult } from "@app/models/list.model";
 import { User } from "@app/models/user.model";
-import { LocalDbService } from "@app/shared/services/localdb.service";
 import { UserSessionService } from "@app/shared/services/usersession.service";
 import { Observable, throwError } from "rxjs";
 import { catchError, map } from "rxjs/operators";
