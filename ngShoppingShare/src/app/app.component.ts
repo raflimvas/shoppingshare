@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
-import { ActivatedRoute, ActivatedRouteSnapshot, NavigationEnd, NavigationStart, Router } from '@angular/router';
-import { SpinnerService } from './shared/spinner/spinner.service';
+import { ActivatedRoute, ActivatedRouteSnapshot, Router } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -27,6 +26,10 @@ export class AppComponent {
     const disableHeader = currentRoute.component.prototype.disableHeader ?? false;
 
     return !disableHeader;
+  }
+
+  public get contentStyle(): string {
+    return this.enableHeader ? '90vh' : '100vh';
   }
 
 }

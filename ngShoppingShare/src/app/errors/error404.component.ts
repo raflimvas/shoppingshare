@@ -1,5 +1,5 @@
-import { Component } from "@angular/core";
-import { DisableHeader } from "../shared/decorators/disable-header.decorator";
+import { Component } from '@angular/core';
+import { DisableHeader } from '@shared/decorators/disable-header.decorator';
 
 @Component({
   templateUrl: 'error404.component.html'
