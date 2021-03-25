@@ -4,7 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --prod",
+    "heroku-postbuild": "ng build --prod",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e"
@@ -29,6 +30,7 @@
     "@fortawesome/free-solid-svg-icons": "^5.15.2",
     "@ng-bootstrap/ng-bootstrap": "^9.0.2",
     "bootstrap": "^5.0.0-beta2",
+    "express": "^4.17.1",
     "jwt-decode": "^3.1.2",
     "ngx-toastr": "^13.2.1",
     "rxjs": "~6.6.0",

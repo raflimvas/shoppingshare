@@ -8,7 +8,7 @@
       "@shared/*": [ "./src/app/shared/*" ],
       "@assets/*": [ "./src/assets/*" ]
     },
-    "outDir": "./dist/out-tsc",
+    "outDir": "./dist/ngShoopingShare",
     "sourceMap": true,
     "declaration": false,
     "downlevelIteration": true,
