@@ -48,6 +48,8 @@ export class LoginComponent {
   public onFormSubmit(): void {
     if (this.formGroup.value.RememberUsername === true) {
       localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Username, remember: true }));
+    } else {
+      localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: null, remember: false }));
     }
 
     this.authService.login({
