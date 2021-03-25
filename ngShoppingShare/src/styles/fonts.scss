@@ -3,4 +3,9 @@
 .app-title {
   font-family: 'clear_sansregular';
   text-transform: uppercase;
+
+  &.lg {
+    font-size: 3rem;
+  }
+
 }

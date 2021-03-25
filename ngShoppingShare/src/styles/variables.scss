@@ -1,11 +1,12 @@
-$primary: #920000;
-$secondary: #920000;
-$light: #e4dceb;
-$dark: #3f0069; /* 242424 */
-$white: #eeeeee;
+$primary: #40bbbb;
+$secondary: #b37dd3;
+$light: #dbe2fd;
+$dark: #3B54AE; /* 242424 */
+$white: #eff2ff;
 
 $lightpurple: #deacff;
 $lightred: #ffaaaa;
+$primarytransparent: #40bbbb80;
 
 $loginbackground: url(../assets/images/login-background.jpg);
 
@@ -13,4 +14,5 @@ $loginbackground: url(../assets/images/login-background.jpg);
   --loginbackground: url(../assets/images/login-background.jpg);
   --lightpurple: #deacff;
   --lightred: #ffaaaa;
+  --primarytrasparent: #40bbbb80;
 }
