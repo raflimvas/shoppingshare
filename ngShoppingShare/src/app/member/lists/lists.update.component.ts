@@ -27,7 +27,6 @@ export class ListsUpdateComponent {
   ngOnInit() {
     if (history.state.id_list && history.state.id_list > 0) {
       this.memberService.getListById(history.state.id_list).subscribe(x => {
-        console.log(x);
         this.formGroup.setValue({
           Id: x.id,
           Nome: x.nome,

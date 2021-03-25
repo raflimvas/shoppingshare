@@ -75,7 +75,7 @@ export class RegisterComponent {
         this.toastService.success('Sucesso', 'Conta criada com sucesso!')
         this.router.navigate(['auth', 'login']);
       },
-      err => { console.error(err) },
+      err => this.toastService.success('Erro', 'Ocorreu um erro ao se registrar, tente novamente mais tarde!'),
       () => { }
     );
   }

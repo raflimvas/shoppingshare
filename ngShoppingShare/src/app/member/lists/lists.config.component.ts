@@ -20,7 +20,10 @@ export class ListsConfigComponent implements OnInit {
 
   ngOnInit() {
     if (history.state.id_list && history.state.id_list > 0) {
-
+      this.memberService.getListById(history.state.id_list).subscribe(x => {
+      });
+    } else {
+      this.router.navigate([ 'member' ]);
     }
   }
 
