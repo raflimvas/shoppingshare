@@ -1,14 +1,25 @@
 .navbar-dark .navbar-brand {
-  color: var(--light) !important;
+  color: var(--bs-light) !important;
   &:hover {
     filter: brightness(85%);
   }
 }
 
 .navbar-dark .navbar-nav .nav-link {
-  color: var(--light) !important;
+  color: var(--bs-light) !important;
   filter: brightness(85%);
   &:hover {
     filter: brightness(100%);
+  }
+}
+
+.btn-primary {
+  color: var(--bs-white) !important;
+}
+
+.form-floating input {
+  background-color: var(--bs-white);
+  &:focus {
+    background-color: var(--bs-white);
   }
 }
