@@ -71,11 +71,9 @@ export class RegisterComponent {
       senha: this.formGroup.value.Password
     }).subscribe(
       x => {
-        if (x.message.search('succesfully') > 0) {
-          localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Email, remember: false }));
-          this.toastService.success('Sucesso', 'Conta criada com sucesso!')
-          this.router.navigate(['auth', 'login']);
-        }
+        localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Email, remember: false }));
+        this.toastService.success('Sucesso', 'Conta criada com sucesso!')
+        this.router.navigate(['auth', 'login']);
       },
       err => { console.error(err) },
       () => { }
