@@ -22,7 +22,14 @@ export class UserSessionService {
   }
 
   public get isLoggedIn(): boolean {
-    return this.token != null;
+    const now = Date.now() / 1000;
+    if (this.token == null) return false;
+    const token: any = jwt_decode(this.token);
+    if (typeof token.exp !== 'undefined' && token.exp < now) {
+      this.clear();
+      return false;
+    }
+    return true;
   }
 
   public getTokenSubject(): number {
