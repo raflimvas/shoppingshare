@@ -6,11 +6,11 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { SharedModule } from './shared/shared.module';
-import { HeaderComponent } from './layout/header/header.component';
+import { HeaderComponent } from './header/header.component';
 import { HomeComponent } from './home/home.component';
 import { ErrorsModule } from './errors/errors.module';
 import { HttpClientModule } from '@angular/common/http';
-import { HeaderService } from './layout/header/header.service';
+import { HeaderService } from './header/header.service';
 
 @NgModule({
   declarations: [
