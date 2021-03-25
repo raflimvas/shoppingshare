@@ -7,6 +7,21 @@ import { DisableHeader } from '@shared/decorators/disable-header.decorator';
 @DisableHeader()
 export class Error404Component {
 
-  ngOnInit() { history.back() }
+  public count: number = 3;
+
+  ngOnInit() {
+    this.countDown();
+  }
+
+  private countDown() {
+    setTimeout(() => {
+      if (this.count > 0) {
+        this.count--;
+        this.countDown();
+      } else {
+        history.back();
+      }
+    }, 1000);
+  }
 
 }

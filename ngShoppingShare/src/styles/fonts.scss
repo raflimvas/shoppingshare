@@ -7,5 +7,9 @@
   &.lg {
     font-size: 3rem;
   }
+}
 
+.font-border {
+  font-weight: bolder;
+  -webkit-text-stroke: 1px var(--bs-white);
 }
