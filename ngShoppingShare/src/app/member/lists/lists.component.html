@@ -9,8 +9,11 @@
           <div class="d-flex w-100 border-bottom">
             <h3 class="mb-0">{{ item.nome }}</h3>
             <div class="ms-auto">
-              <button type="button" style="border: 0; padding: 0px;" (click)="onEdit(item.id)">
+              <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onEdit(item.id)">
                 <fa-icon [icon]="editIcon" size="lg"></fa-icon>
+              </button>
+              <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onConfig(item.id)">
+                <fa-icon [icon]="wrenchIcon" size="lg"></fa-icon>
               </button>
             </div>
           </div>

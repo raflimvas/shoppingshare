@@ -1,7 +1,7 @@
 import { Component } from "@angular/core";
 import { Router } from "@angular/router";
 import { List } from "@app/models/list.model";
-import { faEdit } from "@fortawesome/free-solid-svg-icons";
+import { faEdit, faWrench } from "@fortawesome/free-solid-svg-icons";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { MemberService } from "../member.service";
@@ -13,6 +13,7 @@ import { MemberService } from "../member.service";
 export class ListsComponent {
 
   public editIcon = faEdit;
+  public wrenchIcon = faWrench;
 
   public lists: Observable<List[]>
 
@@ -25,7 +26,11 @@ export class ListsComponent {
   onEdit(e) {
     history.pushState({ id_list: e }, '', '/member/updatelist')
     this.router.navigate(['member', 'updatelist'], { skipLocationChange: true });
-    // updatelist/:id
+  }
+
+  onConfig(e) {
+    history.pushState({ id_list: e }, '', '/member/configlist')
+    this.router.navigate(['member', 'configlist'], { skipLocationChange: true });
   }
 
 }

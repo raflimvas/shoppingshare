@@ -1,5 +1,5 @@
 <div class="d-flex flex-column w-100 h-100">
-  <div class="d-flex flex-column col-10 col-md-7 col-lg-6 col-xl-5 m-auto">
+  <div class="d-flex flex-column col-11 col-md-9 col-lg-7 col-xl-6 m-auto bg-white">
     <div class="d-flex flex-column w-100 mb-5">
       <div class="back-button mt-2 ms-2 pt-1 ps-1">
         <button type="button" class="btn btn-primary btn-circle" (click)="onBack()">
@@ -10,7 +10,8 @@
         <h2 class="m-auto">Perfil</h2>
       </div>
     </div>
-    <form class="d-flex flex-column w-100 flex-grow-1 px-5" [formGroup]="formGroup">
+    <form class="d-flex flex-column w-100 px-5" [formGroup]="formGroup">
+      <input type="number" formControlName="Id" hidden>
       <div class="row">
         <div class="col-5">
           <div class="form-floating mb-3">
@@ -35,31 +36,49 @@
         <label for="input-email">E-mail</label>
         <app-validation-message class="mt-2" name="Email" [formGroup]="formGroup"></app-validation-message>
       </div>
-      <div class="row">
-        <div class="col-6">
-          <div class="form-floating mb-3">
-            <input type="password" id="input-password" class="form-control mb-2" placeholder="Senha"
-              formControlName="Password" [ngClass]="getValidationClass('Password')">
-            <label for="input-password">Senha</label>
-            <app-validation-message name="Password" [formGroup]="formGroup"></app-validation-message>
-          </div>
-        </div>
-        <div class="col-6">
-          <div class="form-floating mb-3">
-            <input type="password" id="input-repeat-password" class="form-control mb-2" placeholder="Repetir Senha"
-              formControlName="RepeatPassword" [ngClass]="getValidationClass('RepeatPassword')">
-            <label for="input-repeat-password">Repetir a Senha</label>
-            <app-validation-message name="RepeatPassword" [formGroup]="formGroup"></app-validation-message>
-            <br />
-            <span *ngIf="formGroup.hasError('notequal')" class="text-danger">{{ passwordNotEqualText }}</span>
-          </div>
-        </div>
-      </div>
-      <div class="d-flex flex-grow-1 w-100">
-        <button type="submit" class="btn btn-primary ms-auto mt-auto mb-5" (click)="onFormSubmit()" [disabled]="formGroup.invalid || formGroup.pristine">
-          Salvar
-        </button>
-      </div>
     </form>
+    <div class="d-flex flex-row w-100 px-5 mb-4">
+      <input type="checkbox" id="change-password" class="form-check-input" value="false" checked="false" [(ngModel)]="changePassword">
+      <label class="form-check-label" for="change-password">Mudar sua senha?</label>
+    </div>
+    <form class="d-flex flex-column w-100 px-5" [formGroup]="passFormGroup">
+      <ng-container *ngIf="changePassword">
+        <div class="row">
+          <div class="col-4">
+            <div class="form-floating mb-3">
+              <input type="password" id="input-oldpassword" class="form-control mb-2" placeholder="Senha"
+                formControlName="OldPassword" [ngClass]="getValidationClass('OldPassword')">
+              <label for="input-oldpassword">Senha Antiga</label>
+              <app-validation-message name="OldPassword" [formGroup]="passFormGroup"></app-validation-message>
+              <br />
+              <span *ngIf="passFormGroup.hasError('oldisequal')" class="text-danger">{{ passwordNotEqualText }}</span>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-floating mb-3">
+              <input type="password" id="input-password" class="form-control mb-2" placeholder="Senha"
+                formControlName="Password" [ngClass]="getValidationClass('Password')">
+              <label for="input-password">Senha Nova</label>
+              <app-validation-message name="Password" [formGroup]="passFormGroup"></app-validation-message>
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="form-floating mb-3">
+              <input type="password" id="input-repeat-password" class="form-control mb-2" placeholder="Repetir Senha"
+                formControlName="RepeatPassword" [ngClass]="getValidationClass('RepeatPassword')">
+              <label for="input-repeat-password">Repetir a Senha</label>
+              <app-validation-message name="RepeatPassword" [formGroup]="passFormGroup"></app-validation-message>
+              <br />
+              <span *ngIf="passFormGroup.hasError('notequal')" class="text-danger">{{ passwordNotEqualText }}</span>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+    </form>
+    <div class="d-flex flex-grow-1 w-100 px-5">
+      <button type="submit" class="btn btn-primary ms-auto mt-auto mb-5" (click)="onFormSubmit()" [disabled]="disableForm()">
+        Salvar
+      </button>
+    </div>
   </div>
 </div>

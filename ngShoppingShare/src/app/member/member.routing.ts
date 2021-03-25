@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ListsComponent } from './lists/lists.component';
+import { ListsConfigComponent } from './lists/lists.config.component';
 import { ListsCreateComponent } from './lists/lists.create.component';
 import { ListsUpdateComponent } from './lists/lists.update.component';
 import { MemberComponent } from './member.component';
@@ -14,7 +15,8 @@ const routes: Routes = [
       { path: '', component: ListsComponent },
       { path: 'profile', component: ProfileComponent },
       { path: 'newlist', component: ListsCreateComponent },
-      { path: 'updatelist', component: ListsUpdateComponent }
+      { path: 'updatelist', component: ListsUpdateComponent },
+      { path: 'configlist', component: ListsConfigComponent }
     ]
   }
 ];

@@ -12,9 +12,21 @@ export class MemberService {
 
   constructor(private http: HttpClient, private userSessionService: UserSessionService) { }
 
-  public putProfile(data: User): Observable<{ message: string }> {
-    return this.http.put<{ message: string }>(
+  public putProfile(data: User): Observable<User> {
+    delete data.senha;
+    return this.http.put(
       environment.apiEndpoint + 'user',
+      JSON.stringify(data),
+      { observe: 'response' }
+    ).pipe(
+      map(x => new User(x.body)),
+      catchError(err => throwError(err))
+    );
+  }
+
+  public putPassword(data: { email: string, senha_atual: string, senha_nova: string }): Observable<{ message: string }> {
+    return this.http.put<{ message: string }>(
+      environment.apiEndpoint + 'user/changepassword',
       JSON.stringify(data),
       { observe: 'response' }
     ).pipe(
