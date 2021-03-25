@@ -25,6 +25,10 @@
     "required": "Confirmar a senha é obrigatório.",
     "notequal": "As senhas não coincidem."
   },
+  "OldPassword": {
+    "required": "Senha antiga é obrigatório.",
+    "minlength": "Senha antiga deve ter no mínimo 6 caracteres."
+  },
   "Nome": {
     "required": "Nome é obrigatório."
   },
