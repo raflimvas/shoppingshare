@@ -1,0 +1,19 @@
+$primary: #9c0000;
+$secondary: #40bbbb;
+$light: #dbe2fd;
+$dark: #3B54AE; /* 242424 */
+$white: #eff2ff;
+
+$lightpurple: #deacff;
+$lightred: #ffaaaa;
+$primarytransparent: #40bbbb80;
+
+$loginbackground: url(../assets/images/login-background.jpg);
+
+:root {
+  --loginbackground: url(../assets/images/login-background.jpg);
+  --lightpurple: #deacff;
+  --lightred: #ffaaaa;
+  --primarytrasparent: #40bbbb80;
+  --modalbg: rgba(0, 0, 0, 0.6);
+}

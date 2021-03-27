@@ -1,0 +1,73 @@
+<header class="w-100">
+  <nav class="d-flex flex-row navbar navbar-dark bg-dark px-3 h-100">
+    <a class="d-flex navbar-brand" [routerLink]="['/']">
+      <img src="/assets/images/logo.png" width="50" height="50" class="d-inline-block align-top" alt="">
+      <span class="app-title ms-3 my-auto">Shopping Share</span>
+    </a>
+    <div class="d-flex justify-content-end flex-grow-1">
+      <div class="ms-auto">
+        <ul class="navbar-nav d-flex flex-row">
+          <li *ngIf="!isLoggedIn" class="nav-item">
+            <a class="nav-link" [routerLink]="['auth', 'login']">Iniciar sessão</a>
+          </li>
+          <li *ngIf="isLoggedIn" class="nav-item">
+            <img class="btn btn-primary profile" [src]="userProfilePicture" (click)="toogleProfile()">
+          </li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+</header>
+
+<div #profilemodal *ngIf="showProfile" class="d-flex flex-column profile-menu border border-2 rounded-3 px-3 py-2">
+  <div class="d-flex w-100 mt-3">
+    <img class="x-profile mx-auto" [src]="userProfilePicture">
+  </div>
+  <div class="d-flex flex-column w-100 mt-2">
+    <h2 class="mb-0 mx-auto">{{ syncData.user.nome }}</h2>
+    <h5 class="mx-auto">{{ syncData.user.email }}</h5>
+  </div>
+  <div class="d-flex w-100">
+    <button type="button" class="btn btn-light mx-auto border full-rounded" [routerLink]="['member', 'profile']"
+      (click)="toogleProfile()">
+      <fa-icon [icon]="wrenchIcon"></fa-icon>
+      Gerenciar perfil
+    </button>
+  </div>
+  <hr />
+  <div class="d-flex flex-column w-100 overflow-auto">
+    <div *ngIf="syncData.lists.length == 0" class="d-flex w-100">
+      <i class="mx-auto">Nenhuma lista</i>
+    </div>
+    <div *ngFor="let item of syncData.lists" class="list-card-wrap">
+      <div class="d-flex list-card">
+        <span>{{ item.nome }}</span>
+        <button type="button" class="ms-auto me-1" style="border: 0; padding: 0px;" (click)="onEdit(item.id_list)">
+          <fa-icon [icon]="editIcon" size="lg"></fa-icon>
+        </button>
+        <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onConfig(item.id_list)">
+          <fa-icon [icon]="wrenchIcon" size="lg"></fa-icon>
+        </button>
+      </div>
+    </div>
+  </div>
+  <div class="d-flex flex-row justify-content-around w-100 mt-3">
+    <button type="button" class="btn btn-light mx-auto border full-rounded" [routerLink]="['member', 'newlist']"
+      (click)="toogleProfile()">
+      <fa-icon [icon]="plusIcon"></fa-icon>
+      Criar lista
+    </button>
+    <button type="button" class="btn btn-light mx-auto border full-rounded" [routerLink]="['member']"
+      (click)="toogleProfile()">
+      <fa-icon [icon]="gearIcon"></fa-icon>
+      Gerenciar listas
+    </button>
+  </div>
+  <hr />
+  <div class="d-flex w-100 mb-2">
+    <button type="button" class="btn btn-light mx-auto border full-rounded" (click)="onLogoutClick()">
+      <fa-icon [icon]="logoutIcon"></fa-icon>
+      Logout
+    </button>
+  </div>
+</div>

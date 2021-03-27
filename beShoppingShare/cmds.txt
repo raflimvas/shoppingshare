@@ -1,0 +1,4 @@
+Migrations:
+    npm run typeorm migration:create
+    npm run typeorm migration:generate -- -n migrationNameHere
+    npm run typeorm migration:run

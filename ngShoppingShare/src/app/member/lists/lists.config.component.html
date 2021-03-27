@@ -1,0 +1,91 @@
+<div class="d-flex w-100 h-100">
+  <div class="d-flex flex-column w-100 mt-3 px-5 py-4 overflow-auto">
+    <div class="d-flex flex-column">
+      <h1>{{ model.nome }}</h1>
+      <h3>{{ model.descricao }}</h3>
+    </div>
+    <h2 class="mt-5">Categorias:</h2>
+    <div class="d-flex flex-row flex-wrap">
+      <i *ngIf="!categories || categories.length == 0" class="me-3">Nenhuma</i>
+      <div class="d-flex flex-row px-3 py-1 me-2 my-1 border border-dark rounded-3 bg-white" *ngFor="let cat of categories">
+        <span class="me-3">{{ cat.nome }}</span>
+        <a style="cursor: pointer;" (click)="removeCategory(cat.id_categoria)">
+          <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
+        </a>
+      </div>
+      <button type="button" class="d-flex btn btn-primary rounded-circle p-0 my-auto"
+        style="width: 20px; height: 20px;" (click)="addCategory()">
+        <fa-icon class="m-auto" [transform]="'up-6'" [icon]="plusIcon" size="xs" style="height: 15px;"></fa-icon>
+      </button>
+    </div>
+    <h2 class="mt-5">Itens:</h2>
+    <button type="button" class="btn btn-primary mb-3" (click)="addItem()">
+      <fa-icon class="my-auto" [icon]="plusIcon"></fa-icon>
+      Adicionar
+    </button>
+    <i *ngIf="model.itens.length == 0">Nenhum</i>
+    <div *ngIf="model.itens.length > 0" class="d-flex flex-row">
+      <div class="d-flex flex-column bg-white">
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showCategoryModal" class="category-modal">
+  <div class="d-flex w-100 h-100">
+    <div class="d-flex flex-column m-auto bg-white border rounded py-2">
+      <div class="d-flex flex-row w-100 px-5">
+        <h3 class="my-auto">Criar categoria</h3>
+        <a style="cursor: pointer;" class="ms-auto my-auto" (click)="addCategoryCallback('cancel')">
+          <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
+        </a>
+      </div>
+      <hr class="mt-2 mb-3" />
+      <div class="d-flex flex-column w-100 px-5">
+        <div class="form-floating">
+          <input type="text" id="text-name" class="form-control" placeholder="Nome" [(ngModel)]="categoryName">
+          <label for="text-name">Nome</label>
+        </div>
+      </div>
+      <hr class="mb-2 mt-3" />
+      <div class="d-flex flex-row w-100 px-5">
+        <button type="button" class="btn btn-white border border-primary me-3 ms-auto"
+          (click)="addCategoryCallback('cancel')">Cancelar</button>
+        <button type="button" class="btn btn-primary" [disabled]="!canSubmitCategory()"
+          (click)="addCategoryCallback('ok')">Criar</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div *ngIf="showItemModal" class="category-modal">
+  <div class="d-flex w-100 h-100">
+    <div class="d-flex flex-column m-auto bg-white border rounded py-2">
+      <div class="d-flex flex-row w-100 px-5">
+        <h3 class="my-auto">Criar item</h3>
+        <a style="cursor: pointer;" class="ms-auto my-auto" (click)="addItemCallback('cancel')">
+          <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
+        </a>
+      </div>
+      <hr class="mt-2 mb-3" />
+      <div class="d-flex flex-column w-100 px-5">
+        <div class="form-floating">
+          <input type="text" id="text-name" class="form-control" placeholder="Nome">
+          <label for="text-name">Nome</label>
+        </div>
+        <div class="form-floating">
+          <input type="number" id="text-name" class="form-control" placeholder="Valor">
+          <label for="text-name">Valor</label>
+        </div>
+      </div>
+      <hr class="mb-2 mt-3" />
+      <div class="d-flex flex-row w-100 px-5">
+        <button type="button" class="btn btn-white border border-primary me-3 ms-auto"
+          (click)="addItemCallback('cancel')">Cancelar</button>
+        <button type="button" class="btn btn-primary" [disabled]="!canSubmitCategory()"
+          (click)="addItemCallback('ok')">Criar</button>
+      </div>
+    </div>
+  </div>
+</div>
