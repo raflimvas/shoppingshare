@@ -32,7 +32,7 @@ export class Server {
         this.app.use(express.urlencoded({ extended: false }));
 
         if (process.env.DEBUG) this.app.use(this.debugHandler);
-        this.app.use(this.authHandler);
+        //this.app.use(this.authHandler);
         this.app.use(this.errorHandler);
         
         if (func) func(this.app);

@@ -11,7 +11,7 @@ export function log(message: string, severity: string, source: string) {
 
 export function getToken(payload: any): Promise<string> {
     return new Promise<string>((resolve, reject) => {
-        jwt.sign(payload, privateKey, { algorithm: 'RS256'}, (e, t) => {
+        jwt.sign(payload, privateKey, { expiresIn: '24h'}, (e, t) => {
             if (e || !t) reject(e);
             resolve(t);
         });
