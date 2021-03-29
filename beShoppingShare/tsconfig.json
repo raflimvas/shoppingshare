@@ -1,18 +1,13 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
-    "paths": {
-      "../*": [
-        "src/*"
-      ]
-    },
     "lib": [
       "es5",
       "es6"
     ],
     "target": "es2020",
     "module": "commonjs",
-    "outDir": "src",
+    "outDir": "dist",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "strict": true,

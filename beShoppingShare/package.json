@@ -5,6 +5,8 @@
   "main": "app.ts",
   "scripts": {
     "start": "nodemon --exec \"npx ts-node\" ./src/app.ts",
+    "build": "tsc && cd dist && node app.js",
+    "heroku-postbuild": "tsc",
     "typeorm": "node -r ts-node/register ./node_modules/typeorm/cli.js",
     "migration:generate": "npm run typeorm -- migration:generate --config src/config/mysql.config.ts --name",
     "migration:run": "npm run typeorm -- migration:run",
