@@ -7,7 +7,7 @@ export class ControllerBase {
 
     protected get connection(): Promise<Connection> {
         return new Promise<Connection>(async (resolve, reject) => {
-            await server.getConnection();
+            resolve(await server.getConnection());
         });
     }
 

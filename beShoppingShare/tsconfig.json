@@ -7,7 +7,7 @@
     ],
     "target": "es2020",
     "module": "commonjs",
-    "outDir": "dist",
+    "outDir": "src",
     "moduleResolution": "node",
     "resolveJsonModule": true,
     "strict": true,

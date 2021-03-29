@@ -2,7 +2,7 @@ import { ApiController, HttpGet } from "../lib/decorators";
 import ActionResult from "../lib/models/actionresult";
 import { ControllerBase } from "../lib/models/controllerbase";
 import { Request } from "express";
-import { User } from "src/models/user.model";
+import { User } from "../models/user.model";
 
 @ApiController('/test')
 export class TestController extends ControllerBase {

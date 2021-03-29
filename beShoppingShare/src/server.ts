@@ -4,6 +4,7 @@ import bodyParser from 'body-parser';
 import cors from 'cors';
 import { log } from './lib/utils';
 import ErrorHandler from './lib/models/errorhandler';
+import { verify } from 'jsonwebtoken';
 
 export class Server {
 
@@ -27,7 +28,7 @@ export class Server {
         this.app.use(express.urlencoded({ extended: false }));
 
         if (process.env.DEBUG) this.app.use(this.debugHandler);
-        this.app.use(this.authHandler);
+        //this.app.use(this.authHandler);
         this.app.use(this.errorHandler);
         
         if (func) func(this.app);
@@ -51,8 +52,8 @@ export class Server {
     }
 
     private authHandler(req: Request, res: Response, next: NextFunction) {
-        const token = req.headers.authorization;
-        console.log(token);
+        const token = req.headers.authorization.split(' ')[1];
+        const decode = verify(token,process.env.JWT_SECRET);
         next();
     }
 
