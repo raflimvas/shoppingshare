@@ -7,5 +7,3 @@ temp/
 dist/
 types/
 .env
-jwtRS256.key
-jwtRS256.key.pub
