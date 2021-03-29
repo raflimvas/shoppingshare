@@ -1,9 +1,10 @@
+import { SwaggerType, SwaggerTypes } from "../lib/decorators";
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
 import { ListUser } from "./listUser.model";
 
 @Entity()
 export class User {
-
+    
     @PrimaryGeneratedColumn()
     public id: number;
 
