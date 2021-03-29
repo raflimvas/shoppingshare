@@ -1,6 +1,11 @@
 {
   "compilerOptions": {
     "baseUrl": "./",
+    "paths": {
+      "../*": [
+        "src/*"
+      ]
+    },
     "lib": [
       "es5",
       "es6"
@@ -20,6 +25,11 @@
     "sourceMap": true,
     "allowJs": true
   },
-  "include": [ "src/**/*" ],
-  "exclude": [ "node_modules", "types" ]
+  "include": [
+    "src/**/*"
+  ],
+  "exclude": [
+    "node_modules",
+    "types"
+  ]
 }

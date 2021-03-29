@@ -1,9 +1,11 @@
 import express, { Router, Express, Request, Response, NextFunction } from 'express';
 import { Connection, ConnectionOptions, createConnection, getConnectionOptions } from 'typeorm';
 import bodyParser from 'body-parser';
+import swaggerUi from 'swagger-ui-express';
 import cors from 'cors';
-import { log } from './lib/utils';
+import { getTokenObject, log } from './lib/utils';
 import ErrorHandler from './lib/models/errorhandler';
+import { anonymousRoutes, swaggerJson } from './lib/dynamicloader';
 
 export class Server {
 
@@ -22,6 +24,9 @@ export class Server {
         this.app.use(cors());
 
         this.app.get('/favicon.ico', (req, res) => res.sendStatus(204));
+        
+        this.app.use('/swagger', swaggerUi.serve);
+        this.app.get('/swagger', swaggerUi.setup(swaggerJson));
 
         this.app.use(express.json());
         this.app.use(express.urlencoded({ extended: false }));
@@ -50,10 +55,19 @@ export class Server {
         next();
     }
 
-    private authHandler(req: Request, res: Response, next: NextFunction) {
-        const token = req.headers.authorization;
-        console.log(token);
-        next();
+    private async authHandler(req: Request, res: Response, next: NextFunction) {
+        if (anonymousRoutes.some(x => x.method == req.method.toLowerCase() && x.route == req.path)) {
+            next();
+        } else {
+            if (!req.headers.authorization) throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token!');
+            try {
+                const token = await getTokenObject(req.headers.authorization);
+                // TODO: Validar o token
+            }
+            catch {
+                throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token!');
+            }
+        }
     }
 
     private errorHandler(err: ErrorHandler, req: Request, res: Response, next: NextFunction) {

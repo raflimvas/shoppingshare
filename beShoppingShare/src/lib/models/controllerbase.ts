@@ -2,18 +2,25 @@ import { Connection } from 'typeorm';
 import { server } from '../../app';
 import ActionResult, { ContentType } from '../../lib/models/actionresult';
 import ErrorHandler from '../../lib/models/errorhandler';
+import { StatusCodes } from '../decorators';
 
 export class ControllerBase {
 
     protected get connection(): Promise<Connection> {
         return new Promise<Connection>(async (resolve, reject) => {
-            await server.getConnection();
+            try {
+                const conn = await server.getConnection();
+                resolve(conn);
+            }
+            catch (err) {
+                reject(err);
+            }
         });
     }
 
     protected ok(result?: any, contentType?: ContentType): ActionResult {
         return {
-            statusCode: 200,
+            statusCode: StatusCodes.OK,
             contentType: contentType ?? 'json',
             result: result
         }
@@ -21,7 +28,7 @@ export class ControllerBase {
 
     protected badRequest(result?: any, contentType?: ContentType): ActionResult {
         return {
-            statusCode: 400,
+            statusCode: StatusCodes.BadRequest,
             contentType: contentType ?? 'json',
             result: result
         }
@@ -29,7 +36,7 @@ export class ControllerBase {
 
     protected unauthorized(result?: any, contentType?: ContentType): ActionResult {
         return {
-            statusCode: 401,
+            statusCode: StatusCodes.Unauthorized,
             contentType: contentType ?? 'json',
             result: result
         }
@@ -37,14 +44,22 @@ export class ControllerBase {
 
     protected notFound(result?: any, contentType?: ContentType): ActionResult {
         return {
-            statusCode: 404,
+            statusCode: StatusCodes.NotFound,
+            contentType: contentType ?? 'json',
+            result: result
+        }
+    }
+
+    protected statusCode(status: StatusCodes, result?: any, contentType?: ContentType) {
+        return {
+            statusCode: status,
             contentType: contentType ?? 'json',
             result: result
         }
     }
 
     protected throwError(message: string, statusCode?: number): ActionResult {
-        throw new ErrorHandler(statusCode ?? 400, message);
+        throw new ErrorHandler(statusCode ?? 500, message);
     }
 
 }

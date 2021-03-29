@@ -1,8 +1,10 @@
+import { StatusCodes } from "../decorators";
+
 export type ContentType = 'json' | 'image';
 
 export default class ActionResult {
 
-    public statusCode: number;
+    public statusCode: StatusCodes;
 
     public contentType: ContentType;
 

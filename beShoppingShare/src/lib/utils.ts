@@ -3,8 +3,7 @@ import jwt from 'jsonwebtoken';
 
 export const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
-// fs.readFileSync('jwtRS256.key');
-const privateKey: jwt.Secret = 'SECRET HERE';
+const privateKey: jwt.Secret = fs.readFileSync('jwtRS256.key');
 
 export function log(message: string, severity: string, source: string) {
     console.log(`[${new Date().toLocaleString('en-US')}] ${('[' + severity + ']').padEnd(8)} ${source.padStart(10, ' ')} | ${message}`);
