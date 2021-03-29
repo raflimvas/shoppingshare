@@ -1,19 +1,19 @@
-$primary: #9c0000;
-$secondary: #40bbbb;
-$light: #dbe2fd;
-$dark: #3B54AE; /* 242424 */
-$white: #eff2ff;
+$primary: #FF4500;
+$light: #E0FFFF;
+$dark: #00CED1;
+$white: #F6FFFF;
 
-$lightpurple: #deacff;
-$lightred: #ffaaaa;
-$primarytransparent: #40bbbb80;
+$lightpurple: #E0FFFF;
+$lightred: #F4A460;
+
+$primarytransparent: #FFA50080;
 
 $loginbackground: url(../assets/images/login-background.jpg);
 
 :root {
   --loginbackground: url(../assets/images/login-background.jpg);
-  --lightpurple: #deacff;
-  --lightred: #ffaaaa;
-  --primarytrasparent: #40bbbb80;
+  --lightpurple: #E0FFFF;
+  --lightred: #F4A460;
+  --primarytrasparent: #FFA50080;
   --modalbg: rgba(0, 0, 0, 0.6);
 }
