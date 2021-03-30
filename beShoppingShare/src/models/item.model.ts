@@ -1,15 +1,15 @@
-import { create } from "domain";
-import { CallTracker } from "node:assert";
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Category } from "./category.model";
-import { List } from "./list.model";
+import { create } from 'domain';
+import { CallTracker } from 'node:assert';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Category } from './category.model';
+import { List } from './list.model';
 
 export enum Unit {
-    "kg",
-    "l",
-    "un",
-    "dz",
-    "g"
+    'kg',
+    'l',
+    'un',
+    'dz',
+    'g'
 }
 
 @Entity()
@@ -17,19 +17,19 @@ export class Item {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @Column("varchar", { length: 100, unique: false, nullable: false })
+    @Column('varchar', { length: 100, unique: false, nullable: false })
     public name: string
 
-    @Column("varchar", { length: 200, unique: false, nullable: true })
+    @Column('varchar', { length: 200, unique: false, nullable: true })
     public description: string
 
-    @Column("decimal", { precision: 5, scale: 2 })
+    @Column('decimal', { precision: 5, scale: 2 })
     public value: number
 
-    @Column("decimal", { precision: 10, scale: 3 })
+    @Column('decimal', { precision: 10, scale: 3 })
     public weight: number
 
-    @Column("enum", { enum: Unit })
+    @Column('enum', { enum: Unit })
     public unit: Unit
 
     @ManyToOne(() => List, list => list.items)

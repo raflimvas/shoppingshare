@@ -1,8 +1,8 @@
-import { AllowAnonymous, ApiController, BodyType, HttpGet, HttpPost, ProducesDefaultResponseType, ProducesResponseType, StatusCodes } from "../lib/decorators";
-import ActionResult from "../lib/models/actionresult";
-import { ControllerBase } from "../lib/models/controllerbase";
-import { Request } from "express";
-import { User } from "../models/user.model";
+import { AllowAnonymous, ApiController, BodyType, HttpGet, HttpPost, ProducesDefaultResponseType, ProducesResponseType, StatusCodes } from '../lib/decorators';
+import ActionResult from '../lib/models/actionresult';
+import { ControllerBase } from '../lib/models/controllerbase';
+import { Request } from 'express';
+import { User } from '../models/user.model';
 
 @ApiController('/test')
 export class TestController extends ControllerBase {

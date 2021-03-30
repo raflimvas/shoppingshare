@@ -1,4 +1,4 @@
-import { StatusCodes } from "../decorators";
+import { StatusCodes } from '../decorators';
 
 export default class ErrorHandler extends Error {
     constructor(

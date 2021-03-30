@@ -1,8 +1,10 @@
+import { Request } from 'express';
 import { Connection } from 'typeorm';
 import { server } from '../../app';
 import ActionResult, { ContentType } from '../../lib/models/actionresult';
 import ErrorHandler from '../../lib/models/errorhandler';
 import { StatusCodes } from '../decorators';
+import { getTokenObject } from '../utils';
 
 export class ControllerBase {
 
@@ -60,6 +62,11 @@ export class ControllerBase {
 
     protected throwError(message: string, statusCode?: number): ActionResult {
         throw new ErrorHandler(statusCode ?? 500, message);
+    }
+
+    protected async userContext(req: Request): Promise<any> {        
+        const token = await getTokenObject(req.headers.authorization)
+        return token.data;
     }
 
 }

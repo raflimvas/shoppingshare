@@ -157,7 +157,7 @@ export function HttpDelete(route: string, summary?: string, description?: string
     };
 }
 
-export function BodyType(type: any) {
+export function BodyType(type: any, description?: string) {
     return function (
         target: any,
         propertyKey: string,
@@ -171,7 +171,7 @@ export function BodyType(type: any) {
             consumes: descriptor.value.swagger?.consumes,
             produces: descriptor.value.swagger?.produces,
             requestBody: {
-                description: 'desc body',
+                description: description,
                 required: true,
                 content: {
                     'application/json': {
@@ -271,6 +271,7 @@ export function SwaggerType(type: SwaggerTypes, example?: any, nullable: boolean
         if (nullable) def.nullable = true;
         
         typeDefinitions[className].properties[propertyKey] = def;
+        console.log(typeDefinitions)
     };
 }
 

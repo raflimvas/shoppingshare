@@ -21,7 +21,8 @@ export function getToken(payload: any): Promise<string> {
 export function getTokenObject(token: string): Promise<any> {
     return new Promise<any>((resolve, reject) => {
         try {
-            const result = jwt.decode(token, { json: true });
+            const splitToken = (token?.split('Bearer ') ?? [])[1];
+            const result = jwt.decode(splitToken, { json: true });
             resolve(result);
         } catch (er) {
             reject(er);

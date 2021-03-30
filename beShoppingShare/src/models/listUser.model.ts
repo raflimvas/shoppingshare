@@ -1,22 +1,27 @@
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from "typeorm";
-import { List } from "./list.model";
-import { User } from "./user.model";
+import { SwaggerType, SwaggerTypes } from '../lib/decorators';
+import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryColumn, UpdateDateColumn } from 'typeorm';
+import { List } from './list.model';
+import { User } from './user.model';
 
 @Entity()
-
 export class ListUser {
-    @ManyToOne(() => User, user => user.listUsers, { primary: true, onDelete: "CASCADE"})
+
+    @SwaggerType(SwaggerTypes.object, null, null, User)
+    @ManyToOne(() => User, user => user.listUsers, { primary: true, onDelete: 'CASCADE'})
     public user: User
 
-    @ManyToOne(() => List, list => list.listUsers, { primary: true , onDelete: "CASCADE"})
+    @ManyToOne(() => List, list => list.listUsers, { primary: true , onDelete: 'CASCADE'})
     public list: List
 
-    @Column("boolean", { nullable: false })
+    @SwaggerType(SwaggerTypes.boolean)
+    @Column('boolean', { nullable: false })
     public owner: boolean
 
+    @SwaggerType(SwaggerTypes.date)
     @CreateDateColumn()
     public createdAt: Date
 
+    @SwaggerType(SwaggerTypes.date)
     @UpdateDateColumn()
     public updatedAt: Date
 

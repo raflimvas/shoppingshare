@@ -1,6 +1,6 @@
-import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from "typeorm";
-import { Item } from "./item.model";
-import { List } from "./list.model";
+import { Column, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn } from 'typeorm';
+import { Item } from './item.model';
+import { List } from './list.model';
 
 @Entity()
 
@@ -12,7 +12,7 @@ export class Category {
     @ManyToOne(() => List, list => list.categories)
     public list: List
 
-    @Column("varchar", { length: 100, unique: true, nullable: false })
+    @Column('varchar', { length: 100, unique: true, nullable: false })
     public name: string
 
     @OneToMany(() => Item, item => item.category)

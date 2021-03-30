@@ -1,7 +1,7 @@
-import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
-import { Category } from "./category.model";
-import { Item } from "./item.model";
-import { ListUser } from "./listUser.model";
+import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
+import { Category } from './category.model';
+import { Item } from './item.model';
+import { ListUser } from './listUser.model';
 
 @Entity()
 
@@ -10,10 +10,10 @@ export class List {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @Column("varchar", { length: 100, unique: false, nullable: false })
+    @Column('varchar', { length: 100, unique: false, nullable: false })
     public name: string
 
-    @Column("varchar", { length: 200, unique: false, nullable: true })
+    @Column('varchar', { length: 200, unique: false, nullable: true })
     public description: string
 
     @OneToMany(() => ListUser, listUser => listUser.list)
