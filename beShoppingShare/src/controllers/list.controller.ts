@@ -16,12 +16,7 @@ export class ListController extends ControllerBase {
     @ProducesResponseArray(List, StatusCodes.OK)
     public async GetAllLists(req: Request, res: Response): Promise<ActionResult> {
 
-        
         let userToken: User = await getTokenObject(req.headers.authorization);
-        console.log(1);
-        console.log(userToken);
-        console.log(2);
-        console.log(req.headers.authorization);
         if (!userToken) {
             return this.unauthorized({ message: "Token não enviado ou inválido." })
         }

@@ -63,6 +63,7 @@ export class Server {
             try {
                 const userToken = await getTokenObject(req.headers.authorization);
                 // TODO: Validar o token
+
                 if (!userToken){
                     throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!')    
                 }

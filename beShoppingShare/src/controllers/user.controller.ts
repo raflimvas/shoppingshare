@@ -41,17 +41,9 @@ export class UserController extends ControllerBase {
         const exp = new Date();
 
         const token = await getToken({
-            jti: uuidv4(),
-            iss: 'randomfeeders.com.br',
-            aud: 'randomfeeders.com.br',
-            sub: userQuery.email,
-            exp: exp.getTime(),
-            iat: new Date((new Date()).toUTCString()).getTime(),
-            data: {
-                id: userQuery.id,
-                fullName: userQuery.firstName + ' ' + userQuery.lastName,
-                email: user.email
-            }
+            id: userQuery.id,
+            fullName: userQuery.firstName + ' ' + userQuery.lastName,
+            email: user.email
         });
 
         return this.ok({ token: token });
