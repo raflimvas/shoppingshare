@@ -1,20 +1,19 @@
 import { Request, response, Response } from "express";
-import { AllowAnonymous, ApiController, HttpDelete, HttpGet, HttpPost, HttpPut } from "../lib/decorators";
+import { AllowAnonymous, ApiController, HttpDelete, HttpGet, HttpPost, HttpPut, ProducesResponseArray, ProducesResponseType, StatusCodes } from "../lib/decorators";
 import ActionResult from "../lib/models/actionresult";
 import { ControllerBase } from "../lib/models/controllerbase";
 import { getTokenObject } from "../lib/utils";
 import { CannotExecuteNotConnectedError } from "typeorm";
 import { List } from "../models/list.model";
-import { KeyObject } from "node:crypto";
 import { ListUser } from "../models/listUser.model";
 import { User } from "../models/user.model";
-import { EDESTADDRREQ } from "node:constants";
 import { Category } from "../models/category.model";
 
 @ApiController('/list')
 export class ListController extends ControllerBase {
 
     @HttpGet('/all/')
+    @ProducesResponseArray(List, StatusCodes.OK)
     public async GetAllLists(req: Request, res: Response): Promise<ActionResult> {
 
         

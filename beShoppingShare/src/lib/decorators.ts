@@ -288,6 +288,40 @@ export function SwaggerType(type: SwaggerTypes, example?: any, nullable: boolean
     };
 }
 
+export function ProducesResponseArray(type: any, statusCode: StatusCodes, description?: string) {
+    return function (
+        target: any,
+        propertyKey: string,
+        descriptor: PropertyDescriptor
+    ) {
+        if (typeof type != 'function') throw 'Invalid type of response type of ' + propertyKey + ' it should be function';
+        const responses = descriptor.value.swagger?.responses ?? {};
+        responses[statusCode] = {
+            description: type.name,
+            content: {
+                'application/json': {
+                    schema: {
+                        type: 'array',
+                        items: {
+                            '$ref': `#/components/schemas/${type.name}`
+                        }
+                    }
+                }
+            }
+        }
+
+        descriptor.value.swagger = {
+            summary: descriptor.value.swagger?.summary,
+            description: descriptor.value.swagger?.description,
+            consumes: descriptor.value.swagger?.consumes,
+            produces: descriptor.value.swagger?.produces,
+            requestBody: descriptor.value.swagger?.requestBody,
+            parameters: descriptor.value.swagger?.parameters,
+            responses: responses
+        }
+    };
+}
+
 export function ProducesResponseType(type: any, statusCode: StatusCodes, description?: string) {
     return function (
         target: any,
