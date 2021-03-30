@@ -24,10 +24,14 @@ export function getTokenObject(token: string): Promise<any> {
         try {
             const splitToken = (token?.split('Bearer ') ?? [])[1];
             jwt.verify(splitToken, privateKey, (error, decode) => {
-                resolve(decode)
+                if (error) {
+                    reject(error);
+                } else {
+                    resolve(decode);
+                }
             })
-        } catch (er) {
-            reject(er);
+        } catch (err) {
+            reject(err);
         }
     });
 }
