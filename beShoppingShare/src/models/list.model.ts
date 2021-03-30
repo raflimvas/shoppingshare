@@ -35,14 +35,17 @@ export class List {
         this.id = obj && obj.id || 0;
         this.name = obj && obj.name || null;
         this.description = obj && obj.description || null;
+        this.listUsers = null;
         if (obj && obj.listUser) {
             this.listUsers = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
         }
-        if (obj && obj.item) {
-            this.items = Array.isArray(obj.item) ? obj.item.map((x: any) => new Item(x)) : [];
+        this.items = null;
+        if (obj && obj.items) {
+            this.items = Array.isArray(obj.items) ? obj.items.map((x: any) => new Item(x)) : [];
         }
-        if (obj && obj.category) {
-            this.categories = Array.isArray(obj.category) ? obj.category.map((x: any) => new Category(x)) : [];
+        this.categories = null;
+        if (obj && obj.categories) {
+            this.categories = Array.isArray(obj.categories) ? obj.categories.map((x: any) => new Category(x)) : [];
         }
     }
 

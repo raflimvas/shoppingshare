@@ -1,8 +1,9 @@
-import { create } from 'domain';
-import { CallTracker } from 'node:assert';
-import { Column, CreateDateColumn, Entity, ManyToOne, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
-import { Category } from './category.model';
-import { List } from './list.model';
+import { create } from "domain";
+import { CallTracker } from "node:assert";
+import { Column, CreateDateColumn, Entity, ManyToOne, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from "typeorm";
+import { Category } from "./category.model";
+import { List } from "./list.model";
+import { Share } from "./share.model";
 
 export enum Unit {
     'kg',
@@ -32,13 +33,14 @@ export class Item {
     @Column('enum', { enum: Unit })
     public unit: Unit
 
-    @ManyToOne(() => List, list => list.items)
+    @ManyToOne(() => List, list => list.items, {onDelete: "CASCADE"})
     public list: List
 
     @ManyToOne(() => Category, category => category.item)
     public category: Category
 
-    //share
+    @OneToMany(()=> Share, share => share.item, )
+    public shares: Share[];
 
     @CreateDateColumn()
     public createdAt: Date
@@ -55,6 +57,9 @@ export class Item {
         this.unit = obj && obj.unit || null;
         this.list = obj && obj.list || {};
         this.category = obj && obj.category || {};
+        this.shares = null;
+        if (obj && obj.shares)
+            this.shares = Array.isArray(obj.share) ? obj.share.map((x: any) => new Share(x)) : [];
     }
 
 }

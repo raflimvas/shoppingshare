@@ -32,7 +32,7 @@ export class Server {
         this.app.use(express.urlencoded({ extended: false }));
 
         if (process.env.DEBUG) this.app.use(this.debugHandler);
-        //this.app.use(this.authHandler);
+        this.app.use(this.authHandler);
         this.app.use(this.errorHandler);
         
         if (func) func(this.app);
@@ -59,13 +59,17 @@ export class Server {
         if (anonymousRoutes.some(x => x.method == req.method.toLowerCase() && x.route == req.path)) {
             next();
         } else {
-            if (!req.headers.authorization) throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token!');
+            if (!req.headers.authorization) throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!');
             try {
-                const token = await getTokenObject(req.headers.authorization);
+                const userToken = await getTokenObject(req.headers.authorization);
                 // TODO: Validar o token
+                if (!userToken){
+                    throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!')    
+                }
+                next();
             }
-            catch {
-                throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token!');
+            catch(err) {
+                throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!');
             }
         }
     }

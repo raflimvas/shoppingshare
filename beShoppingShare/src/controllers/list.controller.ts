@@ -1,21 +1,31 @@
-import { Request, response, Response } from 'express';
-import { ApiController, HttpDelete, HttpGet, HttpPost, HttpPut } from '../lib/decorators';
-import ActionResult from '../lib/models/actionresult';
-import { ControllerBase } from '../lib/models/controllerbase';
-import { getTokenObject } from '../lib/utils';
-import { CannotExecuteNotConnectedError } from 'typeorm';
-import { List } from '../models/list.model';
-import { KeyObject } from 'node:crypto';
-import { ListUser } from '../models/listUser.model';
-import { User } from '../models/user.model';
-import { EDESTADDRREQ } from 'node:constants';
+import { Request, response, Response } from "express";
+import { AllowAnonymous, ApiController, HttpDelete, HttpGet, HttpPost, HttpPut } from "../lib/decorators";
+import ActionResult from "../lib/models/actionresult";
+import { ControllerBase } from "../lib/models/controllerbase";
+import { getTokenObject } from "../lib/utils";
+import { CannotExecuteNotConnectedError } from "typeorm";
+import { List } from "../models/list.model";
+import { KeyObject } from "node:crypto";
+import { ListUser } from "../models/listUser.model";
+import { User } from "../models/user.model";
+import { EDESTADDRREQ } from "node:constants";
+import { Category } from "../models/category.model";
 
 @ApiController('/list')
 export class ListController extends ControllerBase {
 
     @HttpGet('/all/')
     public async GetAllLists(req: Request, res: Response): Promise<ActionResult> {
-        const userToken = await this.userContext(req);
+
+        
+        let userToken: User = await getTokenObject(req.headers.authorization);
+        console.log(1);
+        console.log(userToken);
+        console.log(2);
+        console.log(req.headers.authorization);
+        if (!userToken) {
+            return this.unauthorized({ message: "Token não enviado ou inválido." })
+        }
 
         const cone = (await this.connection)
         const listQuery = await cone
@@ -40,7 +50,7 @@ export class ListController extends ControllerBase {
     @HttpPost('/')
     public async PostList(req: Request, res: Response): Promise<ActionResult> {
 
-        let userToken: User = await getTokenObject(req.headers.authorization.split(' ')[1]);
+        let userToken: User = await getTokenObject(req.headers.authorization);
 
         if (!userToken) {
             return this.unauthorized({ message: 'Token não enviado ou inválido.' })
@@ -71,7 +81,7 @@ export class ListController extends ControllerBase {
     @HttpGet('/:id')
     public async GetListById(req: Request, res: Response): Promise<ActionResult> {
 
-        let userToken: User = await getTokenObject(req.headers.authorization.split(' ')[1]);
+        let userToken: User = await getTokenObject(req.headers.authorization);
 
         if (!userToken) {
             return this.unauthorized({ message: 'Token não enviado ou inválido.' })
@@ -104,8 +114,8 @@ export class ListController extends ControllerBase {
     @HttpPut('/')
     public async UpdateList(req: Request, res: Response): Promise<ActionResult> {
 
-        let userToken: User = await getTokenObject(req.headers.authorization.split(' ')[1]);
-
+        let userToken: User = await getTokenObject(req.headers.authorization);
+        
         if (!userToken) {
             return this.unauthorized({ message: 'Token não enviado ou inválido.' })
         }
@@ -139,7 +149,7 @@ export class ListController extends ControllerBase {
     @HttpDelete('/:id')
     public async DeleteList(req: Request, res: Response): Promise<ActionResult> {
 
-        let userToken: User = await getTokenObject(req.headers.authorization.split(' ')[1]);
+        let userToken: User = await getTokenObject(req.headers.authorization);
 
         if (!userToken) {
             return this.unauthorized({ message: 'Token não enviado ou inválido.' })
@@ -178,33 +188,28 @@ export class ListController extends ControllerBase {
     @HttpPost('/user/')
     public async PostUserList(req: Request, res: Response): Promise<ActionResult> {
 
+        if (!req.body || !req.body.userId || !req.body.listId) {
+            return this.badRequest({ message: "Invalid request." })
+        }
+
         let listUser = new ListUser();
 
-        let user: User =<any> { id: 14}
-        
-        listUser.user = user
-
         const cone = (await this.connection)
-        const listQuery= await cone
+        const user: User = await cone
             .manager
-            .findOne(List,4)
+            .findOne(User, req.body.userId)
 
-        listQuery.listUsers = listQuery.listUsers ?? []
-        listQuery.listUsers.push(listUser);
+        const list: List = await cone
+            .manager
+            .findOne(List, req.body.listId)
 
-        await cone
-            .getRepository(List)
-            .save(listQuery)
-
-        return this.ok(listQuery)
-        
-        if (!req.body || !req.body.userId || !req.body.listId) {
-            return this.badRequest({ message: 'Invalid request.' })
-        }
+        listUser.user = user;
+        listUser.list = list;
+        listUser.owner = false;
 
         const verify = await cone
             .manager
-            .findOne(ListUser, { where: { userId: req.body.userId, listId: req.body.listId } })
+            .findOne(ListUser, { where: { user: user, list: list } })
 
         if (verify) {
             return this.unauthorized({ message: 'Usuário já consta na lista.' })
@@ -212,21 +217,39 @@ export class ListController extends ControllerBase {
 
         await cone
             .getRepository(ListUser)
-            .save(req.body)
+            .save(listUser)
+
+        return this.ok(listUser)
 
     }
 
-    @HttpDelete('/user/')
+
+    @HttpDelete('/user/:userId/:listId')
     public async DeleteUserList(req: Request, res: Response): Promise<ActionResult> {
 
-        if (!req.body || !req.body.userId || !req.body.listId) {
-            return this.badRequest({ message: 'Invalid request.' })
+        if (!req.params.userId || !req.params.listId) {
+            return this.badRequest({ message: "Invalid request." })
         }
 
+        let listUser = new ListUser();
+
         const cone = (await this.connection)
+        const user: User = await cone
+            .manager
+            .findOne(User, req.params.userId)
+
+        const list: List = await cone
+            .manager
+            .findOne(List, req.params.listId)
+
+        listUser.user = user;
+        listUser.list = list;
+
+        console.log(listUser);
+
         const verify = await cone
             .manager
-            .findOne(ListUser, { where: { userId: req.body.userId, listId: req.body.listId } })
+            .findOne(ListUser, { where: { user: listUser.user, list: listUser.list } })
 
         if (!verify) {
             return this.unauthorized({ message: 'Usuário não encontrado para a lista.' })
@@ -236,12 +259,88 @@ export class ListController extends ControllerBase {
             .getRepository(ListUser)
             .createQueryBuilder('lu')
             .delete()
-            .where('userId = :userId and listId = :listId', {
-                userId: req.body.userId,
-                listId: req.body.listId
+            .where("userId = :userId and listId = :listId", {
+                userId: listUser.user.id,
+                listId: listUser.list.id
             })
             .execute()
 
-        return this.ok({message: 'Usuário excluído da lista.'})
+        return this.ok({ message: "Usuário excluído da lista." })
     }
+
+    @HttpPost('/category/')
+    @AllowAnonymous
+    public async PostCategoryList(req: Request, res: Response): Promise<ActionResult> {
+
+        const category = new Category(req.body);
+
+        if (!req.body || !req.body.listId || !req.body.name) {
+            return this.badRequest({ message: "Invalid request." })
+        }
+
+        const cone = await this.connection;
+        const list: List = await cone
+            .manager
+            .findOne(List, req.body.listId)
+
+        if (!list) {
+            return this.notFound({ message: "Lista não existe." })
+        }
+
+        category.list = list;
+
+        await cone
+            .getRepository(Category)
+            .save(category);
+
+        return this.ok(category)
+
+    }
+
+    @HttpDelete('/category/:id')
+    public async DeleteCategoryList(req: Request, res: Response): Promise<ActionResult> {
+
+        if (!req.params.id) {
+            return this.badRequest({ message: "Invalid request." })
+        }
+
+        let category = new Category(req.params);
+
+        const cone = await this.connection;
+        category = await cone
+            .manager
+            .findOne(Category, category.id)
+
+        if (!category) {
+            return this.notFound({ message: "Categoria não encontrada." })
+        }
+
+        await cone
+            .manager
+            .remove(category)
+
+        return this.ok({ message: "Categoria excluída com sucesso." })
+    }
+
+    @HttpGet('/category/:id')
+    @AllowAnonymous
+    public async GetCategoryFromList(req: Request, res: Response): Promise<ActionResult>{
+
+        if(!req.params){
+            return this.badRequest({message: "Invalid request."})
+        }
+
+        let list = new List(req.params);
+        
+        const cone = await this.connection;
+        const listQuery = await cone
+            .getRepository(List)
+            .find({relations: ["categories"],where: {id: list.id}})
+
+        console.log(listQuery);
+
+        return this.ok(listQuery)
+
+    }
+
 }
