@@ -9,10 +9,10 @@ export class Category {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @ManyToOne(() => List, list => list.categories)
+    @ManyToOne(() => List, list => list.categories, {onDelete:"CASCADE"})
     public list: List
 
-    @Column("varchar", { length: 100, unique: true, nullable: false })
+    @Column("varchar", { length: 100, nullable: false })
     public name: string
 
     @OneToMany(() => Item, item => item.category)

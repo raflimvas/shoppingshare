@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 import { getToken } from "../lib/utils";
 import { User } from "../models/user.model";
-import { ApiController, HttpDelete, HttpGet, HttpPost, HttpPut } from "../lib/decorators";
+import { AllowAnonymous, ApiController, HttpDelete, HttpGet, HttpPost, HttpPut } from "../lib/decorators";
 import ActionResult from "../lib/models/actionresult";
 import { ControllerBase } from "../lib/models/controllerbase";
 import { compare, compareSync, hash, hashSync } from "bcrypt";
@@ -11,6 +11,7 @@ import { SimpleConsoleLogger } from "typeorm";
 export class UserController extends ControllerBase {
 
     @HttpPost('/login')
+    @AllowAnonymous
     public async Login(req: Request, res: Response): Promise<ActionResult> {
 
         const user = new User(req.body);
@@ -43,6 +44,7 @@ export class UserController extends ControllerBase {
     }
 
     @HttpPost('/signup')
+    @AllowAnonymous
     public async SignUp(req: Request, res: Response): Promise<ActionResult> {
 
         const user = new User(req.body);

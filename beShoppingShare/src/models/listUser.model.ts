@@ -23,6 +23,6 @@ export class ListUser {
     constructor(obj?: any) {
         this.user = obj && obj.user || {};
         this.list = obj && obj.list || {};
-        this.owner = obj && obj.owner || null;
+        this.owner = obj && obj.owner || false;
     }
 }
