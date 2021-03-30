@@ -175,7 +175,9 @@ export function BodyType(type: any, description?: string) {
                 required: true,
                 content: {
                     'application/json': {
-                        schema: typeDefinitions[type.name]
+                        schema: {
+                            '$ref': `#/components/schemas/${type.name}`
+                        }
                     }
                 }
             },
@@ -211,19 +213,41 @@ export enum StatusCodes {
 }
 
 export enum SwaggerTypes {
-    string, date, password, email, number, boolean, object, array
+    string, date, password, email, number, boolean, object
 }
 
-const typeDefinitions: any = {}
+export const swaggerSchemas: any = {}
+
+export function SwaggerArray(type: string, example?: any, nullable: boolean = false) {
+    return function (
+        target: any,
+        propertyKey: string
+    ) {
+        const className = (<any>Object.getOwnPropertyDescriptors(target).constructor).value.name;
+        swaggerSchemas[className] = swaggerSchemas[className] ?? { type: 'object', properties: {} };
+
+        if (type == null) throw 'Missing type of ' + className + '.' + propertyKey;
+        if (typeof type != 'string') throw 'Invalid type of ' + className + '.' + propertyKey + ' it should be string';
+
+        const def: any = {}
+        def.type = 'array';
+        def.items = {
+            '$ref': `#/components/schemas/${type}`
+        }
+
+        swaggerSchemas[className].properties[propertyKey] = def;
+    };
+}
 
 export function SwaggerType(type: SwaggerTypes, example?: any, nullable: boolean = false, subType?: any) {
     return function (
         target: any,
         propertyKey: string
     ) {
+        // var t = Reflect.getMetadata("design:type", target, propertyKey);
         const className = (<any>Object.getOwnPropertyDescriptors(target).constructor).value.name;
-        typeDefinitions[className] = typeDefinitions[className] ?? {type: 'object', properties: {}}
-
+        swaggerSchemas[className] = swaggerSchemas[className] ?? { type: 'object', properties: {} };
+        
         const def: any = {};
         switch (type) {
             case SwaggerTypes.string:
@@ -248,20 +272,10 @@ export function SwaggerType(type: SwaggerTypes, example?: any, nullable: boolean
             case SwaggerTypes.boolean:
                 def.type = 'boolean';
                 break;
-            case SwaggerTypes.array:
-                if (subType == null) throw 'Missing subType of ' + className + '.' + propertyKey;
-                if (typeof subType != 'function') throw 'Invalid subType of ' + className + '.' + propertyKey + ' it should be function';
-                def.type = 'array';
-                def.items = {
-                    type: 'object',
-                    properties: typeDefinitions[subType.name]
-                }
-                break;
             case SwaggerTypes.object:
                 if (subType == null) throw 'Missing subType of ' + className + '.' + propertyKey;
                 if (typeof subType != 'function') throw 'Invalid subType of ' + className + '.' + propertyKey + ' it should be function';
-                def.type = 'object';
-                def.properties = typeDefinitions[subType.name]
+                def['$ref'] = `#/components/schemas/${subType.name}`
                 break;
             default:
                 break;
@@ -270,8 +284,7 @@ export function SwaggerType(type: SwaggerTypes, example?: any, nullable: boolean
         if (example) def.example = example;
         if (nullable) def.nullable = true;
         
-        typeDefinitions[className].properties[propertyKey] = def;
-        console.log(typeDefinitions)
+        swaggerSchemas[className].properties[propertyKey] = def;
     };
 }
 
@@ -287,7 +300,9 @@ export function ProducesResponseType(type: any, statusCode: StatusCodes, descrip
             description: type.name,
             content: {
                 'application/json': {
-                    schema: typeDefinitions[type.name]
+                    schema: {
+                        '$ref': `#/components/schemas/${type.name}`
+                    }
                 }
             }
         }

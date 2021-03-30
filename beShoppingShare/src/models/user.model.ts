@@ -1,4 +1,4 @@
-import { SwaggerType, SwaggerTypes } from '../lib/decorators';
+import { SwaggerArray, SwaggerType, SwaggerTypes } from '../lib/decorators';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ListUser } from './listUser.model';
 
@@ -27,7 +27,7 @@ export class User {
     @Column('varchar', { length: 255, unique: false, nullable: false })
     public passwordHash: string;
 
-    //@SwaggerType(SwaggerTypes.array, null, true, ListUser)
+    @SwaggerArray('ListUser')
     @OneToMany(() => ListUser, listUser => listUser.user)
     public listUsers: ListUser[]
 

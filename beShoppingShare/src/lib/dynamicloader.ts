@@ -3,6 +3,7 @@ import glob from 'glob';
 import express, { NextFunction, Request, Response, Router } from 'express';
 import ActionResult from './models/actionresult';
 import { JsonObject } from 'swagger-ui-express';
+import { swaggerSchemas } from './decorators';
 
 export const anonymousRoutes: { route: string, method: string }[] = [];
 export const swaggerJson: JsonObject = {};
@@ -122,7 +123,8 @@ function defineSwaggerDefaults() {
                 scheme: 'bearer',
                 bearerFormat: 'JWT'
             }
-        }
+        },
+        schemas: swaggerSchemas
     };
     swaggerJson.paths = {};
 }
