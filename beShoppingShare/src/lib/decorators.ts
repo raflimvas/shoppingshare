@@ -157,6 +157,39 @@ export function HttpDelete(route: string, summary?: string, description?: string
     };
 }
 
+export function BodyArray(type: any, description?: string) {
+    return function (
+        target: any,
+        propertyKey: string,
+        descriptor: PropertyDescriptor
+    ) {
+        if (typeof type != 'function') throw 'Invalid type of response type of ' + propertyKey + ' it should be function';
+        
+        descriptor.value.swagger = {
+            summary: descriptor.value.swagger?.summary,
+            description: descriptor.value.swagger?.description,
+            consumes: descriptor.value.swagger?.consumes,
+            produces: descriptor.value.swagger?.produces,
+            requestBody: {
+                description: description,
+                required: true,
+                content: {
+                    'application/json': {
+                        schema: {
+                            type: 'array',
+                            items: {
+                                '$ref': `#/components/schemas/${type.name}`
+                            }
+                        }
+                    }
+                }
+            },
+            parameters: descriptor.value.swagger?.parameters,
+            responses: descriptor.value.swagger?.responses
+        }
+    };
+}
+
 export function BodyType(type: any, description?: string) {
     return function (
         target: any,
