@@ -1,6 +1,7 @@
 import { SwaggerArray, SwaggerType, SwaggerTypes } from '../lib/decorators';
 import { Column, CreateDateColumn, Entity, OneToMany, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { ListUser } from './listUser.model';
+import { CategoryTemplate } from './categoryTemplate.model';
 
 @Entity()
 export class User {
@@ -31,6 +32,10 @@ export class User {
     @OneToMany(() => ListUser, listUser => listUser.user)
     public listUsers: ListUser[]
 
+    @SwaggerArray('CategoryTemplate')
+    @OneToMany(() => CategoryTemplate, categoryTemplate => categoryTemplate.user)
+    public categoryTemplates: CategoryTemplate[]
+
     @SwaggerType(SwaggerTypes.date)
     @CreateDateColumn()
     public createdAt: Date
@@ -50,6 +55,10 @@ export class User {
         this.listUsers = null;
         if (obj && obj.listUser) {
             this.listUsers = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
+        }
+        this.categoryTemplates = null;
+        if (obj && obj.categoryTemplates) {
+            this.categoryTemplates = Array.isArray(obj.categoryTemplates) ? obj.categoryTemplates.map((x: any) => new CategoryTemplate(x)) : [];
         }
 
     }
