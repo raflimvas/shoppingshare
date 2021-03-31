@@ -9,10 +9,11 @@ import { ListUser } from '../models/listUser.model';
 import { User } from '../models/user.model';
 import { Category } from '../models/category.model';
 import { Item } from '../models/item.model';
-import { ListAllResponse, ListCategoryBody, ListCategoryDeleted, ListCategoryNotFound, ListCategoryPostRes, ListFullRes, ListNameBody, ListNotFound, ListSimpleRes, ListUserDeleted, ListUserInList, ListUserPostBody, ListUserPostRes } from '../viewmodels/list.viewmodel';
+import { ListAllResponse, ListCategoryBody, ListCategoryDeleted, ListCategoryNotFound, ListCategoryPostRes, ListFullRes, ListNameBody, ListNotFound, ListSimpleReq, ListSimpleRes, ListUserDeleted, ListUserInList, ListUserPostBody, ListUserPostRes } from '../viewmodels/list.viewmodel';
 import { connect } from 'node:http2';
 import { InvalidRequest, TokenUnauthorized } from '../viewmodels/common.viewmodel';
 import { UserNotFound } from '../viewmodels/user.viewmodel';
+import { CategoryTemplate } from 'src/models/categoryTemplate.model';
 
 @ApiController('/list')
 export class ListController extends ControllerBase {
@@ -140,6 +141,7 @@ export class ListController extends ControllerBase {
     }
 
     @HttpPut('/')
+    @BodyType(ListSimpleReq)
     @ProducesResponseType(ListSimpleRes, StatusCodes.OK)
     @ProducesResponseType(TokenUnauthorized, StatusCodes.Unauthorized)
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
@@ -153,12 +155,11 @@ export class ListController extends ControllerBase {
 
         let list = new List(req.body);
 
-        if (!list || !list.id) {
-            return this.badRequest({ message: 'Invalid request.' })
-        }
+        if (!list || !list.id) { return this.badRequest({ message: 'Invalid request.' }) }
 
-        const listUserRepo = (await this.connection).getRepository(ListUser);
-        const listUserVerify = await listUserRepo
+        const cone = await this.connection
+        const listUserVerify = await cone
+            .getRepository(ListUser)
             .createQueryBuilder('lu')
             .where('lu.userId = :userId and lu.listId = :listId', {
                 userId: userToken.id,
@@ -166,13 +167,18 @@ export class ListController extends ControllerBase {
             })
             .getOne()
 
-        if (!listUserVerify) {
-            return this.notFound({ message: 'Lista não existe / Sem acesso.' })
-        }
+        if (!listUserVerify) { return this.notFound({ message: 'Lista não existe / Sem acesso.' }) }
 
-        const listRepo = (await this.connection).getRepository(List);
-        await listRepo
-            .save(list)
+        let listRepo = await cone
+            .manager
+            .findOne(List, list.id, { relations: ['user', 'item'] })
+
+        listRepo.name = list.name;
+        listRepo.description = list.description;
+
+        await cone
+            .getRepository(List)
+            .save(listRepo)
 
         delete list.listUser; delete list.category; delete list.item;
 
@@ -376,6 +382,53 @@ export class ListController extends ControllerBase {
             .remove(category)
 
         return this.ok({ message: 'Categoria excluída com sucesso.' })
+    }
+
+
+    @HttpGet('/category/{id:number}')
+    @ProducesResponseType(ListFullRes, StatusCodes.OK)
+    @ProducesResponseType(TokenUnauthorized, StatusCodes.Unauthorized)
+    @ProducesResponseType(ListNotFound, StatusCodes.NotFound)
+    @ProducesDefaultResponseType
+    public async GetCategoryListById(req: Request, res: Response): Promise<ActionResult> {
+
+        let userToken: User = await getTokenObject(req.headers.authorization);
+
+        if (!userToken) { return this.unauthorized({ message: 'Token não enviado ou inválido.' }) }
+
+        let list = new List(req.params);
+        const cone = await this.connection;
+        list = await cone
+            .manager
+            .findOne(List, list.id, { relations: ['category'] });
+
+        if (!list) { return this.notFound({ message: 'Lista não existe / Sem acesso.' }); }
+
+        const user = await cone
+            .manager
+            .findOne(User, userToken.id, { relations: ['categoryTemplate'] })
+
+        try {
+            user.categoryTemplate.map((x: CategoryTemplate) => {
+                delete x.userId; delete x.user;
+            });
+        }
+        catch (err) { }
+
+        try {
+            list.category.map((x: Category) => {
+                delete x.listId; delete x.list; delete x.item;
+            });
+        }
+        catch (err) { }
+
+        delete list.listUser;
+
+        return this.ok({
+            listCategories: list.category,
+            userCategories: user.categoryTemplate
+        });
+
     }
 
 }
