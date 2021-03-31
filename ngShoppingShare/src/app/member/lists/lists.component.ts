@@ -20,7 +20,7 @@ export class ListsComponent {
   constructor(private memberService: MemberService, private router: Router) { }
 
   ngOnInit() {
-    this.lists = this.memberService.getLists().pipe(map(x => x.lists));
+    this.lists = this.memberService.getLists();
   }
 
   onEdit(e: number) {

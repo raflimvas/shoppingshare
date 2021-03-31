@@ -8,6 +8,7 @@ import { AuthService } from '../auth.service';
 import { LOGIN_DATA_ID } from '../login/login.component';
 import { Router } from '@angular/router';
 import { ToastService } from '@app/shared/services/toast.service';
+import { User } from '@app/models/user.model';
 
 @Component({
   templateUrl: 'register.component.html',
@@ -28,11 +29,11 @@ export class RegisterComponent {
     private router: Router
   ) {
     this.formGroup = formBuilder.group({
-      FirstName: [ null, [ Validators.required ] ],
-      LastName: [ null, [ Validators.required ] ],
-      Email: [ null, [ Validators.required, Validators.email ] ],
-      Password: [ null, [ Validators.required, Validators.minLength(6) ] ],
-      RepeatPassword: [ null, [ Validators.required ] ]
+      firstName: [ null, [ Validators.required ] ],
+      lastName: [ null, [ Validators.required ] ],
+      email: [ null, [ Validators.required, Validators.email ] ],
+      password: [ null, [ Validators.required, Validators.minLength(6) ] ],
+      repeatPassword: [ null, [ Validators.required ] ]
     }, { validators: this.checkPasswords });
   }
 
@@ -65,17 +66,13 @@ export class RegisterComponent {
   }
 
   public onFormSubmit(): void {
-    this.authService.register({
-      nome: `${this.formGroup.value.FirstName} ${this.formGroup.value.LastName}`,
-      email: this.formGroup.value.Email,
-      senha: this.formGroup.value.Password
-    }).subscribe(
+    this.authService.register(new User(this.formGroup.value)).subscribe(
       x => {
-        localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Email, remember: false }));
+        localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.email, remember: false }));
         this.toastService.success('Sucesso', 'Conta criada com sucesso!')
         this.router.navigate(['auth', 'login']);
       },
-      err => this.toastService.success('Erro', 'Ocorreu um erro ao se registrar, tente novamente mais tarde!'),
+      err => this.toastService.error('Erro', 'Ocorreu um erro ao se registrar, tente novamente mais tarde!'),
       () => { }
     );
   }

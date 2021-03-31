@@ -31,7 +31,7 @@ export class Category {
         this.listId = obj && obj.listId || 0;
         this.name = obj && obj.name || null;
         this.item = null;
-        if (obj && obj.listUser) {
+        if (obj && obj.item) {
             this.item = Array.isArray(obj.item) ? obj.item.map((x: any) => new Item(x)) : [];
         }
     }

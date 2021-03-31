@@ -32,9 +32,9 @@ export class LoginComponent {
   ) {
     const loginData: LoginData = JSON.parse(localStorage.getItem(LOGIN_DATA_ID)) ?? { username: null, remember: false };
     this.formGroup = formBuilder.group({
-      Username: [ loginData.username, [ Validators.required, Validators.email ] ],
-      Password: [ null, [ Validators.required ] ],
-      RememberUsername: [ loginData.remember, [] ]
+      username: [ loginData.username, [ Validators.required, Validators.email ] ],
+      password: [ null, [ Validators.required ] ],
+      rememberUsername: [ loginData.remember, [] ]
     });
   }
 
@@ -46,16 +46,13 @@ export class LoginComponent {
   }
 
   public onFormSubmit(): void {
-    if (this.formGroup.value.RememberUsername === true) {
-      localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Username, remember: true }));
+    if (this.formGroup.value.rememberUsername === true) {
+      localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.username, remember: true }));
     } else {
       localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: null, remember: false }));
     }
 
-    this.authService.login({
-      email: this.formGroup.value.Username,
-      senha: this.formGroup.value.Password
-    }).subscribe(
+    this.authService.login(this.formGroup.value).subscribe(
       x => {
         this.userSessionService.token = x.token;
         this.router.navigate(['/']);

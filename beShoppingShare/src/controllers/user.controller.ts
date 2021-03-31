@@ -136,8 +136,12 @@ export class UserController extends ControllerBase {
             return this.notFound({ message: 'Usuário não encontrado.' })
         }
 
+        userQuery.email = user.email;
+        userQuery.firstName = user.firstName;
+        userQuery.lastName = user.lastName;
+
         await userRepo
-            .save(user);
+            .save(userQuery);
 
         delete user.passwordHash;
         delete user.password;
@@ -185,7 +189,7 @@ export class UserController extends ControllerBase {
     public async ChangePassword(req: Request, res: Response): Promise<ActionResult> {
 
         let user = new User(req.body)
-
+        
         if (!user || !user.email || !user.password || !req.body.passwordNew) {
             return this.badRequest({ message: 'Invalid request.' })
         }

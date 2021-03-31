@@ -1,7 +1,9 @@
 import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
-import { Category, List, ListItem } from "@app/models/list.model";
+import { Category } from "@app/models/category.model";
+import { Item } from "@app/models/item.model";
+import { List } from "@app/models/list.model";
 import { ToastService } from "@app/shared/services/toast.service";
 import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { MemberService } from "../member.service";
@@ -19,13 +21,12 @@ export class ListsConfigComponent implements OnInit {
   public categoryName: string = null;
 
   public showItemModal: boolean = false;
-  public item: ListItem = null;
+  public item: Item = null;
 
-  public model: List = <any>{};
+  public model: List = new List();
   public categories: Category[];
 
   constructor(
-    formBuilder: FormBuilder,
     private memberService: MemberService,
     private router: Router,
     private toastService: ToastService
@@ -38,7 +39,7 @@ export class ListsConfigComponent implements OnInit {
         console.log(x);
       });
       this.memberService.getCategory(history.state.id_list).subscribe(x => {
-        this.categories = x.categories;
+        this.categories = x;
       });
     } else {
       this.router.navigate(['member']);
@@ -50,7 +51,7 @@ export class ListsConfigComponent implements OnInit {
     if (status === 'ok') {
       this.memberService.postItem(this.item).subscribe(
         x => {
-          this.model.itens.push(x);
+          this.model.items.push(x);
           this.toastService.success('Sucesso', 'Item criado com sucesso!');
         },
         err => this.toastService.error('Erro', 'Houve um erro ao criar o item, tente novamente mais tarde!'),
@@ -60,11 +61,11 @@ export class ListsConfigComponent implements OnInit {
   }
 
   canSubmitItem(): boolean {
-    return this.item && this.item.validate();
+    return this.item && this.item.name != null && this.item.name.replace(/\s*/g, '') != '';
   }
 
   addItem(): void {
-    this.item = new ListItem(null);
+    this.item = new Item(null);
     this.showItemModal = true;
   }
 
@@ -72,9 +73,8 @@ export class ListsConfigComponent implements OnInit {
     this.showCategoryModal = false;
     if (status === 'ok') {
       this.memberService.postCategory({
-        id_categoria: 0,
-        nome: this.categoryName,
-        id_list: this.model.id_list
+        name: this.categoryName,
+        listId: this.model.id
       }).subscribe(
         x => {
           this.categories.push(x);
@@ -99,7 +99,7 @@ export class ListsConfigComponent implements OnInit {
     this.memberService.deleteCategory(e).subscribe(
       x => {
         if (x) {
-          const index = this.categories.findIndex(x => x.id_categoria == e);
+          const index = this.categories.findIndex(x => x.id == e);
           if (index >= 0) {
             this.categories.splice(index, 1);
             this.toastService.success('Sucesso', 'Categoria excluida com sucesso!');

@@ -1,15 +1,15 @@
 <div class="d-flex w-100 h-100">
   <div class="d-flex flex-column w-100 mt-3 px-5 py-4 overflow-auto">
     <div class="d-flex flex-column">
-      <h1>{{ model.nome }}</h1>
-      <h3>{{ model.descricao }}</h3>
+      <h1>{{ model.name }}</h1>
+      <h3>{{ model.description }}</h3>
     </div>
     <h2 class="mt-5">Categorias:</h2>
     <div class="d-flex flex-row flex-wrap">
       <i *ngIf="!categories || categories.length == 0" class="me-3">Nenhuma</i>
       <div class="d-flex flex-row px-3 py-1 me-2 my-1 border border-dark rounded-3 bg-white" *ngFor="let cat of categories">
-        <span class="me-3">{{ cat.nome }}</span>
-        <a style="cursor: pointer;" (click)="removeCategory(cat.id_categoria)">
+        <span class="me-3">{{ cat.name }}</span>
+        <a style="cursor: pointer;" (click)="removeCategory(cat.id)">
           <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
         </a>
       </div>
@@ -23,8 +23,8 @@
       <fa-icon class="my-auto" [icon]="plusIcon"></fa-icon>
       Adicionar
     </button>
-    <i *ngIf="model.itens.length == 0">Nenhum</i>
-    <div *ngIf="model.itens.length > 0" class="d-flex flex-row">
+    <i *ngIf="model.items.length == 0">Nenhum</i>
+    <div *ngIf="model.items.length > 0" class="d-flex flex-row">
       <div class="d-flex flex-column bg-white">
 
       </div>
@@ -70,13 +70,19 @@
       </div>
       <hr class="mt-2 mb-3" />
       <div class="d-flex flex-column w-100 px-5">
-        <div class="form-floating">
-          <input type="text" id="text-name" class="form-control" placeholder="Nome">
-          <label for="text-name">Nome</label>
+        <div class="form-floating mb-3">
+          <input type="text" id="input-name" class="form-control mb-2" placeholder="Nome">
+          <label for="input-name">Nome</label>
         </div>
-        <div class="form-floating">
-          <input type="number" id="text-name" class="form-control" placeholder="Valor">
-          <label for="text-name">Valor</label>
+        <div class="d-flex flex-row">
+          <div class="form-floating">
+            <input type="number" id="text-name" class="form-control" placeholder="Valor">
+            <label for="text-name">Valor</label>
+          </div>
+          <div class="form-floating">
+            <input id="text-name" class="form-control" placeholder="Valor">
+            <label for="text-name">Valor</label>
+          </div>
         </div>
       </div>
       <hr class="mb-2 mt-3" />

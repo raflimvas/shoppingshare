@@ -6,6 +6,7 @@ import error_messages from '@assets/error-messages.json';
 import { MemberService } from '../member.service';
 import { DisableHeader } from '@app/shared/decorators/disable-header.decorator';
 import { ToastService } from '@app/shared/services/toast.service';
+import { User } from '@app/models/user.model';
 
 @Component({
   templateUrl: 'profile.component.html',
@@ -26,40 +27,37 @@ export class ProfileComponent implements OnInit {
     private toastService: ToastService
   ) {
     this.formGroup = formBuilder.group({
-      Id: [ 0, [ ] ],
-      FirstName: [ null, [ Validators.required ] ],
-      LastName: [ null, [ Validators.required ] ],
-      Email: [ null, [ Validators.required, Validators.email ] ],
+      id: [ 0, [ ] ],
+      firstName: [ null, [ Validators.required ] ],
+      lastName: [ null, [ Validators.required ] ],
+      email: [ null, [ Validators.required, Validators.email ] ],
     });
     this.passFormGroup = formBuilder.group({
-      OldPassword: [ null, [ Validators.required, Validators.minLength(6) ] ],
-      Password: [ null, [ Validators.required, Validators.minLength(6) ] ],
-      RepeatPassword: [ null, [ Validators.required ] ]
+      oldPassword: [ null, [ Validators.required, Validators.minLength(6) ] ],
+      password: [ null, [ Validators.required, Validators.minLength(6) ] ],
+      repeatPassword: [ null, [ Validators.required ] ]
     }, { validators: this.checkPasswords });
   }
 
   ngOnInit() {
     this.memberService.getUser().subscribe(x => {
-      const index = x.nome.search(/\s/g);
-      const firstName = x.nome.substr(0, index);
-      const lastName = x.nome.substr(index + 1, x.nome.length - firstName.length - 1);
       this.formGroup.setValue({
-        Id: x.id_user,
-        FirstName: firstName,
-        LastName: lastName,
-        Email: x.email,
+        id: x.id,
+        firstName: x.firstName,
+        lastName: x.lastName,
+        email: x.email
       });
     });
   }
 
   public get passwordNotEqualText(): string {
-    return error_messages['RepeatPassword']['notequal'];
+    return error_messages['repeatPassword']['notequal'];
   }
 
   checkPasswords(formGroup: FormGroup) {
     try {
-      const password = formGroup.get('Password').value;
-      const confirmPassword = formGroup.get('RepeatPassword').value;
+      const password = formGroup.get('password').value;
+      const confirmPassword = formGroup.get('repeatPassword').value;
       return password === confirmPassword ? null : { notequal: true }
     }
     catch {
@@ -84,35 +82,33 @@ export class ProfileComponent implements OnInit {
   }
 
   public onFormSubmit(): void {
-    this.memberService.putProfile({
-      id_user: this.formGroup.value.Id,
-      nome: `${this.formGroup.value.FirstName} ${this.formGroup.value.LastName}`,
-      email: this.formGroup.value.Email,
-      senha: this.formGroup.value.Password
-    }).subscribe(
+    this.memberService.putProfile(new User({
+      id: this.formGroup.value.id,
+      firstName: this.formGroup.value.firstName,
+      lastName: this.formGroup.value.lastName,
+      email: this.formGroup.value.email,
+      password: this.formGroup.value.password
+    })).subscribe(
       x => {
-        const index = x.nome.search(/\s/g);
-        const firstName = x.nome.substr(0, index);
-        const lastName = x.nome.substr(index + 1, x.nome.length - firstName.length - 1);
         this.formGroup.setValue({
-          Id: this.formGroup.value.Id,
-          FirstName: firstName,
-          LastName: lastName,
-          Email: x.email,
+          id: x.id,
+          firstName: x.firstName,
+          lastName: x.lastName,
+          email: x.email
         });
         this.formGroup.markAsUntouched();
         this.formGroup.markAsPristine();
         if (this.changePassword) {
           this.memberService.putPassword({
             email: x.email,
-            senha_atual: this.passFormGroup.value.OldPassword,
-            senha_nova: this.passFormGroup.value.Password
+            password: this.passFormGroup.value.oldPassword,
+            passwordNew: this.passFormGroup.value.password
           }).subscribe(
             x => {
               this.passFormGroup.setValue({
-                OldPassword: null,
-                Password: null,
-                RepeatPassword: null
+                oldPassword: null,
+                password: null,
+                repeatPassword: null
               });
               this.changePassword = false;
               this.passFormGroup.markAsUntouched();
