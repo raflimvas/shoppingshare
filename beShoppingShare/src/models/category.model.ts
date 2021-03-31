@@ -11,9 +11,9 @@ export class Category {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @ManyToOne(() => List, list => list.category, {onDelete:"CASCADE"})
+    @ManyToOne(() => List, list => list.category, { onDelete: "CASCADE" })
     public list: List
-    
+
     @SwaggerType(SwaggerTypes.number)
     public listId: number
 

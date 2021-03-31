@@ -6,19 +6,19 @@ import { User } from './user.model';
 @Entity()
 export class ListUser {
 
-    @ManyToOne(() => User, user => user.listUser, { primary: true, onDelete: 'CASCADE'})
+    @ManyToOne(() => User, user => user.listUser, { primary: true, onDelete: 'CASCADE' })
     public user: User
-    
-    @SwaggerType(SwaggerTypes.number,1)
+
+    @SwaggerType(SwaggerTypes.number, 1)
     public userId: number
 
-    @ManyToOne(() => List, list => list.listUser, { primary: true , onDelete: 'CASCADE'})
+    @ManyToOne(() => List, list => list.listUser, { primary: true, onDelete: 'CASCADE' })
     public list: List
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public listId: number
 
-    @SwaggerType(SwaggerTypes.boolean,true)
+    @SwaggerType(SwaggerTypes.boolean, true)
     @Column('boolean', { nullable: false })
     public owner: boolean
 

@@ -50,7 +50,7 @@ export class ItemController extends ControllerBase {
 
         await cone.getRepository(Item).save(item);
 
-        delete item.list; delete item.category;delete item.share;
+        delete item.list; delete item.category; delete item.share;
 
         return this.ok(item);
     }
@@ -71,13 +71,13 @@ export class ItemController extends ControllerBase {
         const cone = await this.connection;
         const itemQuery = await cone
             .manager
-            .findOne(Item,item.id,{relations: ['list','category']})
+            .findOne(Item, item.id, { relations: ['list', 'category'] })
 
         if (!itemQuery) { return this.notFound({ message: 'Item não encontrado.' }); }
 
         const categoryQuery = await cone
             .manager
-            .findOne(Category,item.categoryId)
+            .findOne(Category, item.categoryId)
 
         item.category = categoryQuery; item.list = itemQuery.list;
 
@@ -111,11 +111,11 @@ export class ItemController extends ControllerBase {
         delete item.category.listId; delete item.list.listUser; delete item.list.category; delete item.list.item;
 
         try {
-            item.share.map((x: Share)=>{
+            item.share.map((x: Share) => {
                 delete x.item; delete x.user; delete x.userId; delete x.itemId;
             });
         }
-        catch (err) {}
+        catch (err) { }
 
         return this.ok(item);
     }

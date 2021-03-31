@@ -1,4 +1,4 @@
-import { SwaggerType, SwaggerTypes } from '../lib/decorators';
+import { SwaggerType, SwaggerTypes } from '../lib/decorators'; 
 
 export class Token {
 

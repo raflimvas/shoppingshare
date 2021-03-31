@@ -53,7 +53,7 @@ export async function loadControllers(): Promise<{ route: string, instance: Rout
                                             method: prototype[func].method
                                         });
                                     } else {
-                                        swaggerJson.paths[fullRoute][prototype[func].method].security = [{bearerAuth: []}];
+                                        swaggerJson.paths[fullRoute][prototype[func].method].security = [{ bearerAuth: [] }];
                                     }
 
                                     const action = async (req: Request, res: Response, next: NextFunction) => {

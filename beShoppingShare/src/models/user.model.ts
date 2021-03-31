@@ -5,8 +5,8 @@ import { CategoryTemplate } from './categoryTemplate.model';
 
 @Entity()
 export class User {
-    
-    @SwaggerType(SwaggerTypes.number,1)
+
+    @SwaggerType(SwaggerTypes.number, 1)
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -14,11 +14,11 @@ export class User {
     @Column('varchar', { length: 200, unique: true, nullable: false })
     public email: string;
 
-    @SwaggerType(SwaggerTypes.string,'End')
+    @SwaggerType(SwaggerTypes.string, 'End')
     @Column('varchar', { length: 100, unique: false, nullable: false })
     public firstName: string;
 
-    @SwaggerType(SwaggerTypes.string,'Game')
+    @SwaggerType(SwaggerTypes.string, 'Game')
     @Column('varchar', { length: 200, unique: false, nullable: false })
     public lastName: string;
 

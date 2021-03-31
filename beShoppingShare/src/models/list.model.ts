@@ -12,11 +12,11 @@ export class List {
     @PrimaryGeneratedColumn()
     public id: number
 
-    @SwaggerType(SwaggerTypes.string,'List name')
+    @SwaggerType(SwaggerTypes.string, 'List name')
     @Column('varchar', { length: 100, unique: false, nullable: false })
     public name: string
 
-    @SwaggerType(SwaggerTypes.string,'List description')
+    @SwaggerType(SwaggerTypes.string, 'List description')
     @Column('varchar', { length: 200, unique: false, nullable: true })
     public description: string
 
@@ -35,7 +35,7 @@ export class List {
     @SwaggerType(SwaggerTypes.date)
     @CreateDateColumn()
     public createdAt: Date
-    
+
     @SwaggerType(SwaggerTypes.date)
     @UpdateDateColumn()
     public updatedAt: Date

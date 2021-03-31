@@ -6,22 +6,22 @@ import { User } from '../models/user.model';
 
 export class ListNotFound {
 
-    @SwaggerType(SwaggerTypes.string,'Lista não existe / sem acesso.')
+    @SwaggerType(SwaggerTypes.string, 'Lista não existe / sem acesso.')
     public message: string;
 }
 
 export class ListAllList {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number;
 
-    @SwaggerType(SwaggerTypes.string,'EndList')
+    @SwaggerType(SwaggerTypes.string, 'EndList')
     public name: string;
 
-    @SwaggerType(SwaggerTypes.string,'EndGame final List')
+    @SwaggerType(SwaggerTypes.string, 'EndGame final List')
     public description: string;
 
-    @SwaggerType(SwaggerTypes.boolean,true)
+    @SwaggerType(SwaggerTypes.boolean, true)
     public owner: boolean;
 
     @SwaggerType(SwaggerTypes.date)
@@ -29,7 +29,7 @@ export class ListAllList {
 
     @SwaggerType(SwaggerTypes.date)
     public updatedAt: Date;
-    
+
 }
 
 export class ListAllResponse {
@@ -43,20 +43,20 @@ export class ListAllResponse {
 
 export class ListNameBody {
 
-    @SwaggerType(SwaggerTypes.string,'EndList')
+    @SwaggerType(SwaggerTypes.string, 'EndList')
     public name: string;
 
-    @SwaggerType(SwaggerTypes.string,'Final EndList')
+    @SwaggerType(SwaggerTypes.string, 'Final EndList')
     public description: string;
 
 }
 
 export class ListPostListUser {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public userId: number;
 
-    @SwaggerType(SwaggerTypes.boolean,true)
+    @SwaggerType(SwaggerTypes.boolean, true)
     public owner: boolean;
 
     @SwaggerType(SwaggerTypes.date)
@@ -68,22 +68,22 @@ export class ListPostListUser {
 
 export class ListItemRes {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number
 
-    @SwaggerType(SwaggerTypes.string,'Banana')
+    @SwaggerType(SwaggerTypes.string, 'Banana')
     public name: string
 
-    @SwaggerType(SwaggerTypes.string,'Plantation')
+    @SwaggerType(SwaggerTypes.string, 'Plantation')
     public description: string
 
-    @SwaggerType(SwaggerTypes.number,'6.22')
+    @SwaggerType(SwaggerTypes.number, '6.22')
     public value: number
 
-    @SwaggerType(SwaggerTypes.number,'1.350')
+    @SwaggerType(SwaggerTypes.number, '1.350')
     public weight: number
 
-    @SwaggerType(SwaggerTypes.string,'kg')
+    @SwaggerType(SwaggerTypes.string, 'kg')
     public unit: string
 
     @SwaggerType(SwaggerTypes.date)
@@ -95,16 +95,16 @@ export class ListItemRes {
 
 export class ListCategoryRes {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number;
 
-    @SwaggerType(SwaggerTypes.string,'Hortifruti')
+    @SwaggerType(SwaggerTypes.string, 'Hortifruti')
     public name: string;
 }
 
 export class ListFullRes {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number;
 
     @SwaggerType(SwaggerTypes.string, 'EndList')
@@ -132,7 +132,7 @@ export class ListFullRes {
 
 export class ListSimpleRes {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number;
 
     @SwaggerType(SwaggerTypes.string, 'EndList')
@@ -164,23 +164,23 @@ export class ListUserInList {
 
 export class ListUserPostBody {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public userId: number;
 
     @SwaggerType(SwaggerTypes.number, 1)
     public listId: number;
-    
+
 }
 
 export class ListUserPostRes {
-   
-    @SwaggerType(SwaggerTypes.object,null,null,User)
+
+    @SwaggerType(SwaggerTypes.object, null, null, User)
     public user: User
 
-    @SwaggerType(SwaggerTypes.object,null,null,List)
+    @SwaggerType(SwaggerTypes.object, null, null, List)
     public list: List
 
-    @SwaggerType(SwaggerTypes.boolean,true)
+    @SwaggerType(SwaggerTypes.boolean, true)
     public owner: boolean
 
     @SwaggerType(SwaggerTypes.date)
@@ -193,7 +193,7 @@ export class ListUserPostRes {
 
 export class ListUserDeleted {
 
-    @SwaggerType(SwaggerTypes.string,'Usuário excluído da lista.')
+    @SwaggerType(SwaggerTypes.string, 'Usuário excluído da lista.')
     public message: string
 }
 
