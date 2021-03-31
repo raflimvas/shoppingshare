@@ -47,12 +47,6 @@ export class ShareSimple {
     @SwaggerType(SwaggerTypes.string, 'kg')
     public unit: string;
 
-    @SwaggerType(SwaggerTypes.number, 1)
-    public itemId: number;
-
-    @SwaggerType(SwaggerTypes.number, 1)
-    public userId: number;
-
 }
 
 

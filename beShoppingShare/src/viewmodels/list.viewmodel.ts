@@ -4,6 +4,8 @@ import { UserToken } from './user.viewmodel';
 import { List } from '../models/list.model';
 import { User } from '../models/user.model';
 
+
+
 export class ListSimpleReq {
 
     @SwaggerType(SwaggerTypes.number, 1)
@@ -177,8 +179,8 @@ export class ListUserInList {
 
 export class ListUserPostBody {
 
-    @SwaggerType(SwaggerTypes.number, 1)
-    public userId: number;
+    @SwaggerType(SwaggerTypes.email, 1)
+    public email: string;
 
     @SwaggerType(SwaggerTypes.number, 1)
     public listId: number;

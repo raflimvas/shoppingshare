@@ -13,7 +13,7 @@ import { ListAllResponse, ListCategoryBody, ListCategoryDeleted, ListCategoryNot
 import { connect } from 'node:http2';
 import { InvalidRequest, TokenUnauthorized } from '../viewmodels/common.viewmodel';
 import { UserNotFound } from '../viewmodels/user.viewmodel';
-import { CategoryTemplate } from 'src/models/categoryTemplate.model';
+import { CategoryTemplate } from '../models/categoryTemplate.model';
 
 @ApiController('/list')
 export class ListController extends ControllerBase {
@@ -235,7 +235,7 @@ export class ListController extends ControllerBase {
     @ProducesDefaultResponseType
     public async PostUserList(req: Request, res: Response): Promise<ActionResult> {
 
-        if (!req.body || !req.body.userId || !req.body.listId) {
+        if (!req.body || !req.body.email || !req.body.listId) {
             return this.badRequest({ message: 'Invalid request.' })
         }
 
@@ -244,7 +244,7 @@ export class ListController extends ControllerBase {
         const cone = (await this.connection)
         const user: User = await cone
             .manager
-            .findOne(User, req.body.userId)
+            .findOne(User, req.body.email)
 
         if (!user) { return this.notFound({ message: 'Usuário não encontrado.' }) }
 
