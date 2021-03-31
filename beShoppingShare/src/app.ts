@@ -16,11 +16,11 @@ Promise.all([loadControllers(), server.createConnection()])
             values[0].forEach((c) => {
                 server.router.use(c.route, c.instance);
             });
-    
+
             server.setup((app) => {
                 app.use('', server.router);
             });
-    
+
             server.listen();
         },
         err => {
