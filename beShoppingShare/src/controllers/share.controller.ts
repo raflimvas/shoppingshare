@@ -76,12 +76,14 @@ export class ShareController extends ControllerBase {
         const cone = await this.connection
         const shareQuery = await cone
             .manager
-            .findOne(Share,share.id)
+            .findOne(Share,share.id,{relations:['item','user']})
 
         if (!shareQuery) {return this.notFound({ message: 'Contribuição não encontrada.' });}
+        share.item = shareQuery.item; share.user = shareQuery.user;
 
         await cone.getRepository(Share).save(share);
-        delete share.userId; delete share.itemId;
+
+        delete share.userId; delete share.itemId; delete share.item.categoryId; delete share.item.listId;
         delete share.item.list; delete share.item.category; delete share.item.share;
         delete share.user.categoryTemplate; delete share.user.listUser; delete share.user.password; delete share.user.passwordHash;
 
