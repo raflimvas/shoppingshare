@@ -71,25 +71,46 @@
       <hr class="mt-2 mb-3" />
       <div class="d-flex flex-column w-100 px-5">
         <div class="form-floating mb-3">
-          <input type="text" id="input-name" class="form-control mb-2" placeholder="Nome">
+          <input type="text" id="input-name" class="form-control mb-2" placeholder="Nome" [(ngModel)]="item.name">
           <label for="input-name">Nome</label>
         </div>
-        <div class="d-flex flex-row">
+        <div class="form-floating mb-3">
+          <textarea id="text-description" class="form-control mb-2" placeholder="Descrição" style="height: 90px;" [(ngModel)]="item.description">
+          </textarea>
+          <label for="text-description">Descrição</label>
+        </div>
+        <div class="form-floating">
+          <input type="number" id="text-value" class="form-control mb-3" placeholder="Valor Estimado" [(ngModel)]="item.value">
+          <label for="text-value">Valor Estimado</label>
+        </div>
+        <div class="d-flex flex-row mb-3">
           <div class="form-floating">
-            <input type="number" id="text-name" class="form-control" placeholder="Valor">
-            <label for="text-name">Valor</label>
+            <input type="number" id="text-qt" class="form-control me-3" placeholder="Quantidade" style="width: auto;" [(ngModel)]="item.weight">
+            <label for="text-qt">Quantidade</label>
           </div>
           <div class="form-floating">
-            <input id="text-name" class="form-control" placeholder="Valor">
-            <label for="text-name">Valor</label>
+            <select id="un" name="un" class="form-control" placeholder="Unidade" style="width: 68px;" [(ngModel)]="item.unit">
+              <option value="2">Un.</option>
+              <option value="0">Kg</option>
+              <option value="4">g</option>
+              <option value="1">L</option>
+              <option value="3">Dz.</option>
+            </select>
+            <label for="un">Unidade</label>
           </div>
+        </div>
+        <div class="form-floating">
+          <select id="cat" name="cat" class="form-control" placeholder="Categoria" [(ngModel)]="item.category">
+            <option *ngFor="let c of allCategories" [value]="c">{{ c.name }}</option>
+          </select>
+          <label for="cat">Categoria</label>
         </div>
       </div>
       <hr class="mb-2 mt-3" />
       <div class="d-flex flex-row w-100 px-5">
         <button type="button" class="btn btn-white border border-primary me-3 ms-auto"
           (click)="addItemCallback('cancel')">Cancelar</button>
-        <button type="button" class="btn btn-primary" [disabled]="!canSubmitCategory()"
+        <button type="button" class="btn btn-primary" [disabled]="!canSubmitItem()"
           (click)="addItemCallback('ok')">Criar</button>
       </div>
     </div>

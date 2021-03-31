@@ -1,6 +1,7 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Category } from "@app/models/category.model";
+import { CategoryTemplate } from "@app/models/categoryTemplate.model";
 import { Item } from "@app/models/item.model";
 import { List } from "@app/models/list.model";
 import { User } from "@app/models/user.model";
@@ -57,10 +58,13 @@ export class MemberService {
     );
   }
 
-  public postItem(entity: Item): Observable<Item> {
+  public postItem(entity: Item, listId: number, categoryId: number): Observable<Item> {
+    let body: any = entity;
+    body.listId = listId;
+    body.categoryId = categoryId;
     return this.http.post(
       environment.apiEndpoint + 'item',
-      JSON.stringify(entity),
+      JSON.stringify(body),
       { observe: 'response' }
     ).pipe(
       map(x => new Item(x.body)),
@@ -74,6 +78,16 @@ export class MemberService {
       { observe: 'response' }
     ).pipe(
       map(x => ((<any>x.body).category ?? []).map(y => new Category(y))),
+      catchError(err => throwError(err))
+    );
+  }
+
+  public getUserCategory(id: number): Observable<CategoryTemplate[]> {
+    return this.http.get(
+      environment.apiEndpoint + 'list/category/' + id,
+      { observe: 'response' }
+    ).pipe(
+      map(x => ((<any>x.body).user ?? []).map(y => new CategoryTemplate(y))),
       catchError(err => throwError(err))
     );
   }

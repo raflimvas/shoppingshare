@@ -35,7 +35,8 @@
           </label>
         </div>
         <div class="d-flex flex-column flex-grow-1 w-100">
-          <button type="submit" class="btn btn-primary mx-auto mt-2" (click)="onFormSubmit()" [disabled]="formGroup.invalid">
+          <button type="submit" class="btn btn-primary mx-auto mt-2" (click)="onFormSubmit()"
+            [disabled]="formGroup.invalid" ngbTooltip="Iniciar sessão">
             <fa-icon [icon]="loginIcon" size="2x"></fa-icon>
           </button>
         </div>

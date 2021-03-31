@@ -11,6 +11,7 @@ import { HomeComponent } from './home/home.component';
 import { ErrorsModule } from './errors/errors.module';
 import { HttpClientModule } from '@angular/common/http';
 import { HeaderService } from './header/header.service';
+import { NgxMaskModule } from 'ngx-mask';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { HeaderService } from './header/header.service';
     HttpClientModule,
     NgbModule,
     SharedModule.forRoot(),
+    NgxMaskModule.forRoot(),
     ErrorsModule
   ],
   providers: [

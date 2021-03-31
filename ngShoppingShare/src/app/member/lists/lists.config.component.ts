@@ -2,6 +2,7 @@ import { Component, OnInit } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { Router } from "@angular/router";
 import { Category } from "@app/models/category.model";
+import { CategoryTemplate } from "@app/models/categoryTemplate.model";
 import { Item } from "@app/models/item.model";
 import { List } from "@app/models/list.model";
 import { ToastService } from "@app/shared/services/toast.service";
@@ -25,6 +26,15 @@ export class ListsConfigComponent implements OnInit {
 
   public model: List = new List();
   public categories: Category[];
+  public userCategories: CategoryTemplate[];
+
+  public get allCategories(): any[] {
+    if (!this.categories || !this.userCategories) return [];
+    let result = [];
+    this.categories.forEach(x => result.push({ id: x.id, name: x.name, from: 'list' }));
+    this.userCategories.forEach(x => result.push({ id: x.id, name: x.name, from: 'user' }));
+    return result;
+  }
 
   constructor(
     private memberService: MemberService,
@@ -41,6 +51,9 @@ export class ListsConfigComponent implements OnInit {
       this.memberService.getCategory(history.state.id_list).subscribe(x => {
         this.categories = x;
       });
+      this.memberService.getUserCategory(history.state.id_list).subscribe(x => {
+        this.userCategories = x;
+      })
     } else {
       this.router.navigate(['member']);
     }
@@ -49,7 +62,7 @@ export class ListsConfigComponent implements OnInit {
   addItemCallback(status: 'ok' | 'cancel') {
     this.showItemModal = false;
     if (status === 'ok') {
-      this.memberService.postItem(this.item).subscribe(
+      this.memberService.postItem(this.item, this.model.id, 0).subscribe(
         x => {
           this.model.items.push(x);
           this.toastService.success('Sucesso', 'Item criado com sucesso!');
@@ -61,7 +74,9 @@ export class ListsConfigComponent implements OnInit {
   }
 
   canSubmitItem(): boolean {
-    return this.item && this.item.name != null && this.item.name.replace(/\s*/g, '') != '';
+    return this.item &&
+      this.item.name != null && this.item.name.replace(/\s*/g, '') != '' &&
+      this.item.value > 0 && this.item.weight > 0 && this.item.category != null;
   }
 
   addItem(): void {
