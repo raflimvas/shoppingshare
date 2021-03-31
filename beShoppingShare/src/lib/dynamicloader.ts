@@ -108,7 +108,6 @@ function defineSwaggerDefaults() {
         method: 'get',
         route: '/swagger/'
     });
-
     swaggerJson.openapi = '3.0.3';
     swaggerJson.info = {
         title: 'Shopping Share API',
@@ -126,5 +125,6 @@ function defineSwaggerDefaults() {
         },
         schemas: swaggerSchemas
     };
+    swaggerJson.host = 'shopping-share-api.herokuapp.com'
     swaggerJson.paths = {};
 }
