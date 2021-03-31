@@ -4,6 +4,19 @@ import { UserToken } from './user.viewmodel';
 import { List } from '../models/list.model';
 import { User } from '../models/user.model';
 
+export class ListSimpleReq {
+
+    @SwaggerType(SwaggerTypes.number, 1)
+    public id: number;
+
+    @SwaggerType(SwaggerTypes.string, 'EndList')
+    public name: string
+
+    @SwaggerType(SwaggerTypes.string, 'Final EndList')
+    public description: string;
+
+}
+
 export class ListNotFound {
 
     @SwaggerType(SwaggerTypes.string, 'Lista não existe / sem acesso.')
