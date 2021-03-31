@@ -291,8 +291,6 @@ export class ListController extends ControllerBase {
         listUser.user = user;
         listUser.list = list;
 
-        console.log(listUser);
-
         const verify = await cone
             .manager
             .findOne(ListUser, { where: { user: listUser.user, list: listUser.list } })

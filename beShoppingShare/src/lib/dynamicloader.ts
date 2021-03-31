@@ -15,7 +15,7 @@ export async function loadControllers(): Promise<{ route: string, instance: Rout
 
     return new Promise<{ route: string, instance: Router }[]>((resolve, reject) => {
         try {
-            glob(path.resolve(__dirname, '../controllers/**/*.controller.ts'),
+            glob(path.resolve(__dirname, '../controllers/**/*.controller{.js,.ts}'),
                 async (er, m) => {
                     if (!er) {
                         const result = [];
@@ -24,7 +24,7 @@ export async function loadControllers(): Promise<{ route: string, instance: Rout
                             const instance = await import(file).catch(error => { throw error; });
                             const prototype = (Object.values(instance)[0] as any).prototype;
                             const router = Router();
-
+                            
                             let groups = {} as any;
 
                             for (let item of Object.getOwnPropertyNames(prototype)) {
@@ -46,7 +46,7 @@ export async function loadControllers(): Promise<{ route: string, instance: Rout
                                     swaggerJson.paths[fullRoute] = swaggerJson.paths[fullRoute] ?? {};
                                     swaggerJson.paths[fullRoute][prototype[func].method] = prototype[func].swagger;
                                     swaggerJson.paths[fullRoute][prototype[func].method].tags = [{ name: prototype.tag }];
-
+                                    
                                     if (prototype[func].anonymous) {
                                         anonymousRoutes.push({
                                             route: fullRoute,

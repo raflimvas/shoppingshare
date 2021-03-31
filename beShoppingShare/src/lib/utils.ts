@@ -1,6 +1,5 @@
 import * as fs from 'fs';
 import jwt from 'jsonwebtoken';
-import { error } from 'node:console';
 
 export const emailRegex = new RegExp(/^(([^<>()\[\]\\.,;:\s@']+(\.[^<>()\[\]\\.,;:\s@']+)*)|('.+'))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/);
 
@@ -27,8 +26,6 @@ export function getTokenObject(token: string): Promise<any> {
             const decode = jwt.verify(splitToken, publicKey, { algorithms: ['RS256'] })
             resolve(decode);
         } catch (err) {
-            console.log(2);
-            console.log(err);
             reject(err);
         }
     });
