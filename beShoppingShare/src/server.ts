@@ -61,18 +61,33 @@ export class Server {
         if (anonymousRoutes.some(x => x.method == req.method.toLowerCase() && x.route == req.path)) {
             next();
         } else {
-            if (!req.headers.authorization) throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!');
+            if (!req.headers.authorization) {
+                res.status(401).json({
+                    status: 'error',
+                    statusCode: 401,
+                    message: 'Você não pode acessar esse endpoint sem um token válido!'
+                });  
+            }
             try {
                 const userToken = await getTokenObject(req.headers.authorization);
                 // TODO: Validar o token
 
                 if (!userToken){
-                    throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!')    
+                    res.status(401).json({
+                        status: 'error',
+                        statusCode: 401,
+                        message: 'Você não pode acessar esse endpoint sem um token válido!'
+                    });  
+                } else {
+                    next();
                 }
-                next();
             }
             catch(err) {
-                throw new ErrorHandler(401, 'Você não pode acessar esse endpoint sem um token válido!');
+                res.status(401).json({
+                    status: 'error',
+                    statusCode: 401,
+                    message: 'Você não pode acessar esse endpoint sem um token válido!'
+                });  
             }
         }
     }

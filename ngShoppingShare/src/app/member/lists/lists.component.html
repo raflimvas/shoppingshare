@@ -7,18 +7,18 @@
       <div class="d-flex w-100 list-card-wrap">
         <div class="d-flex flex-column w-100 bg-white px-3 py-2">
           <div class="d-flex w-100 border-bottom">
-            <h3 class="mb-0">{{ item.nome }}</h3>
+            <h3 class="mb-0">{{ item.name }}</h3>
             <div class="ms-auto">
-              <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onEdit(item.id_list)">
+              <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onEdit(item.id)">
                 <fa-icon [icon]="editIcon" size="lg"></fa-icon>
               </button>
-              <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onConfig(item.id_list)">
+              <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onConfig(item.id)">
                 <fa-icon [icon]="wrenchIcon" size="lg"></fa-icon>
               </button>
             </div>
           </div>
           <div class="text-wrap mt-2">
-            <span>{{ item.descricao }}</span>
+            <span>{{ item.description }}</span>
           </div>
         </div>
       </div>

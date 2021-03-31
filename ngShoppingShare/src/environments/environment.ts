@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiEndpoint: 'https://shopping-share-api.herokuapp.com/'
+  apiEndpoint: 'http://localhost:3030/'
 };

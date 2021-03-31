@@ -41,7 +41,12 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit() {
     this.memberService.getUser().subscribe(x => {
-      this.formGroup.setValue(x);
+      this.formGroup.setValue({
+        id: x.id,
+        firstName: x.firstName,
+        lastName: x.lastName,
+        email: x.email
+      });
     });
   }
 
@@ -85,20 +90,25 @@ export class ProfileComponent implements OnInit {
       password: this.formGroup.value.password
     })).subscribe(
       x => {
-        this.formGroup.setValue(new User(x));
+        this.formGroup.setValue({
+          id: x.id,
+          firstName: x.firstName,
+          lastName: x.lastName,
+          email: x.email
+        });
         this.formGroup.markAsUntouched();
         this.formGroup.markAsPristine();
         if (this.changePassword) {
           this.memberService.putPassword({
             email: x.email,
-            senha_atual: this.passFormGroup.value.OldPassword,
-            senha_nova: this.passFormGroup.value.Password
+            password: this.passFormGroup.value.oldPassword,
+            passwordNew: this.passFormGroup.value.password
           }).subscribe(
             x => {
               this.passFormGroup.setValue({
-                OldPassword: null,
-                Password: null,
-                RepeatPassword: null
+                oldPassword: null,
+                password: null,
+                repeatPassword: null
               });
               this.changePassword = false;
               this.passFormGroup.markAsUntouched();

@@ -23,7 +23,7 @@ export class AuthService {
 
   private stringifyLogin(data: any) {
     const params = {
-      email: data && data.email || null,
+      email: data && data.username || null,
       password: data && data.password || null
     }
     return JSON.stringify(params);

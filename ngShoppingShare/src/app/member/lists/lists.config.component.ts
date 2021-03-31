@@ -27,7 +27,6 @@ export class ListsConfigComponent implements OnInit {
   public categories: Category[];
 
   constructor(
-    formBuilder: FormBuilder,
     private memberService: MemberService,
     private router: Router,
     private toastService: ToastService

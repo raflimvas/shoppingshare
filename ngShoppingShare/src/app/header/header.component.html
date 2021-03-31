@@ -41,11 +41,11 @@
     </div>
     <div *ngFor="let item of syncData.lists" class="list-card-wrap">
       <div class="d-flex list-card">
-        <span>{{ item.nome }}</span>
-        <button type="button" class="ms-auto me-1" style="border: 0; padding: 0px;" (click)="onEdit(item.id_list)">
+        <span>{{ item.name }}</span>
+        <button type="button" class="ms-auto me-1" style="border: 0; padding: 0px;" (click)="onEdit(item.id)">
           <fa-icon [icon]="editIcon" size="lg"></fa-icon>
         </button>
-        <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onConfig(item.id_list)">
+        <button type="button" class="mx-1" style="border: 0; padding: 0px;" (click)="onConfig(item.id)">
           <fa-icon [icon]="wrenchIcon" size="lg"></fa-icon>
         </button>
       </div>

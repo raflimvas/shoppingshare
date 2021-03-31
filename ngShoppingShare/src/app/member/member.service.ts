@@ -26,7 +26,7 @@ export class MemberService {
     );
   }
 
-  public putPassword(data: { email: string, senha_atual: string, senha_nova: string }): Observable<{ message: string }> {
+  public putPassword(data: { email: string, password: string, passwordNew: string }): Observable<{ message: string }> {
     return this.http.put<{ message: string }>(
       environment.apiEndpoint + 'user/changepassword',
       JSON.stringify(data),
@@ -42,7 +42,7 @@ export class MemberService {
       environment.apiEndpoint + 'list/all',
       { observe: 'response' }
     ).pipe(
-      map(x => (<any>x.body).map((y: any) => new List(y))),
+      map(x => (<any>x.body).lists.map((y: any) => new List(y))),
       catchError(err => throwError(err))
     );
   }
@@ -52,7 +52,7 @@ export class MemberService {
       environment.apiEndpoint + 'list/' + id,
       { observe: 'response' }
     ).pipe(
-      map(x => new List(x.body[0])),
+      map(x => new List(x.body)),
       catchError(err => throwError(err))
     );
   }

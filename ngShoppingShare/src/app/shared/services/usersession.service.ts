@@ -35,7 +35,7 @@ export class UserSessionService {
   public getTokenSubject(): number {
     try {
       const token: any = jwt_decode(this.token);
-      return token.id_user;
+      return token.id;
     }
     catch (err) { }
   }

@@ -68,7 +68,7 @@ export class RegisterComponent {
   public onFormSubmit(): void {
     this.authService.register(new User(this.formGroup.value)).subscribe(
       x => {
-        localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.Email, remember: false }));
+        localStorage.setItem(LOGIN_DATA_ID, JSON.stringify({ username: this.formGroup.value.email, remember: false }));
         this.toastService.success('Sucesso', 'Conta criada com sucesso!')
         this.router.navigate(['auth', 'login']);
       },

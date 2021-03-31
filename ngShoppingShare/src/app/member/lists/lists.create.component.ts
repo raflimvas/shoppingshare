@@ -18,16 +18,16 @@ export class ListsCreateComponent {
     private toastService: ToastService
   ) {
     this.formGroup = formBuilder.group({
-      Id: [ 0, [ ] ],
-      Nome: [ null, [ Validators.required ] ],
-      Descricao: [ null, [ Validators.required ] ]
+      id: [ 0, [ ] ],
+      name: [ null, [ Validators.required ] ],
+      description: [ null, [ Validators.required ] ]
     });
   }
 
   onSubmitClicked(e: any): void {
     this.memberService.postList(<any>{
-      nome: e.Nome,
-      descricao: e.Descricao
+      name: e.name,
+      description: e.description
     }).subscribe(x => {
       this.toastService.success('Sucesso', 'Lista criada com sucesso!');
       this.router.navigate(['member']);

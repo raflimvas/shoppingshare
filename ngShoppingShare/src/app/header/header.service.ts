@@ -31,7 +31,7 @@ export class HeaderService {
       environment.apiEndpoint + 'list/all',
       { observe: 'response' }
     ).pipe(
-      map(x => (<any>x.body).map((y: any) => new List(y))),
+      map(x => (<any>x.body).lists.map((y: any) => new List(y))),
       catchError(err => throwError(err))
     );
   }
