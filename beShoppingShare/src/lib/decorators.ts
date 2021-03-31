@@ -392,7 +392,7 @@ export function ProducesDefaultResponseType(
     descriptor: PropertyDescriptor
 ) {
     const responses = descriptor.value.swagger?.responses ?? {};
-    responses['default'] = {
+    responses['500'] = {
         content: {
             'application/json': {
                 schema: {
