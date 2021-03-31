@@ -84,7 +84,7 @@ export class ListController extends ControllerBase {
     }
 
     @HttpGet('/{id:number}')
-    @ProducesResponseType(ListFullRes,StatusCodes.OK)
+    @ProducesResponseType(ListFullRes, StatusCodes.OK)
     @ProducesResponseType(TokenUnauthorized, StatusCodes.Unauthorized)
     @ProducesResponseType(ListNotFound, StatusCodes.NotFound)
     @ProducesDefaultResponseType
@@ -111,29 +111,29 @@ export class ListController extends ControllerBase {
         const cone = (await this.connection);
         list = await cone
             .manager
-            .findOne(List, list.id, { relations: ['item', 'category','listUser'] })
+            .findOne(List, list.id, { relations: ['item', 'category', 'listUser'] })
 
         try {
-            list.category.map((x: Category)=>{
+            list.category.map((x: Category) => {
                 delete x.item; delete x.list; delete x.listId;
             });
         }
-        catch (err) {}
+        catch (err) { }
 
         try {
-            list.item.map((x: Item)=>{
+            list.item.map((x: Item) => {
                 delete x.list; delete x.listId; delete x.categoryId; delete x.share;
             });
         }
-        catch (err) {}
+        catch (err) { }
 
         try {
-            list.listUser.map((x: ListUser)=>{
+            list.listUser.map((x: ListUser) => {
                 x.userId = userToken.id;
                 delete x.list; delete x.listId; delete x.user;
             });
         }
-        catch (err) {}
+        catch (err) { }
 
         return this.ok(list);
 
@@ -205,9 +205,9 @@ export class ListController extends ControllerBase {
                 userId: userToken.id,
                 listId: list.id
             })
-            .getOne()
+            .getOne();
 
-        if (!listUserVerify) {return this.notFound({ message: 'Lista não existe / Sem acesso.' })}
+        if (!listUserVerify) { return this.notFound({ message: 'Lista não existe / Sem acesso.' }) }
 
         const listRepo = (await this.connection).getRepository(List);
         const listDel = await listRepo
@@ -222,7 +222,7 @@ export class ListController extends ControllerBase {
 
     @HttpPost('/user/')
     @BodyType(ListUserPostBody)
-    @ProducesResponseType(ListUserPostRes,StatusCodes.OK)
+    @ProducesResponseType(ListUserPostRes, StatusCodes.OK)
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
     @ProducesResponseType(ListNotFound, StatusCodes.NotFound)
     @ProducesResponseType(ListUserInList, StatusCodes.Unauthorized)
@@ -240,21 +240,21 @@ export class ListController extends ControllerBase {
             .manager
             .findOne(User, req.body.userId)
 
-        if (!user) {return this.notFound({ message: 'Usuário não encontrado.'})}
+        if (!user) { return this.notFound({ message: 'Usuário não encontrado.' }) }
 
         const list: List = await cone
             .manager
             .findOne(List, req.body.listId)
 
-        if (!list) {return this.notFound({ message: 'Lista não existe / Sem acesso.' })}
+        if (!list) { return this.notFound({ message: 'Lista não existe / Sem acesso.' }) }
 
-        listUser.user = user;listUser.list = list;listUser.owner = false;
+        listUser.user = user; listUser.list = list; listUser.owner = false;
 
         const verify = await cone
             .manager
             .findOne(ListUser, { where: { user: user, list: list } })
 
-        if (verify) { return this.unauthorized({ message: 'Usuário já consta na lista.' })}
+        if (verify) { return this.unauthorized({ message: 'Usuário já consta na lista.' }) }
 
         await cone
             .getRepository(ListUser)
@@ -266,7 +266,7 @@ export class ListController extends ControllerBase {
 
 
     @HttpDelete('/user/{userId:number}/{listId:number}')
-    @ProducesResponseType(ListUserDeleted,StatusCodes.OK)
+    @ProducesResponseType(ListUserDeleted, StatusCodes.OK)
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
     @ProducesResponseType(UserNotFound, StatusCodes.NotFound)
     @ProducesResponseType(ListUserInList, StatusCodes.Unauthorized)
@@ -316,7 +316,7 @@ export class ListController extends ControllerBase {
 
     @HttpPost('/category/')
     @BodyType(ListCategoryBody)
-    @ProducesResponseType(ListCategoryPostRes,StatusCodes.OK)
+    @ProducesResponseType(ListCategoryPostRes, StatusCodes.OK)
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
     @ProducesResponseType(ListNotFound, StatusCodes.NotFound)
     @ProducesResponseType(ListUserInList, StatusCodes.Unauthorized)
@@ -351,7 +351,7 @@ export class ListController extends ControllerBase {
     }
 
     @HttpDelete('/category/{id:number}')
-    @ProducesResponseType(ListCategoryDeleted,StatusCodes.OK)
+    @ProducesResponseType(ListCategoryDeleted, StatusCodes.OK)
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
     @ProducesResponseType(ListCategoryNotFound, StatusCodes.NotFound)
     @ProducesResponseType(TokenUnauthorized, StatusCodes.Unauthorized)

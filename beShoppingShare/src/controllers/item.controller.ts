@@ -50,7 +50,7 @@ export class ItemController extends ControllerBase {
 
         await cone.getRepository(Item).save(item);
 
-        delete item.list; delete item.category;
+        delete item.list; delete item.category; delete item.share;
 
         return this.ok(item);
     }
@@ -66,18 +66,26 @@ export class ItemController extends ControllerBase {
 
         const item = new Item(req.body);
 
-        if (!item || !item.id || item.name) { return this.badRequest({ message: 'Invalid request.' }); }
+        if (!item || !item.id || !item.name) { return this.badRequest({ message: 'Invalid request.' }); }
 
-        const itemRepo = (await this.connection).getRepository(Item);
-        const itemQuery = await itemRepo
-            .createQueryBuilder('item')
-            .where('id = :id', { id: item.id })
-            .getOne();
+        const cone = await this.connection;
+        const itemQuery = await cone
+            .manager
+            .findOne(Item, item.id, { relations: ['list', 'category'] })
 
         if (!itemQuery) { return this.notFound({ message: 'Item não encontrado.' }); }
 
-        await itemRepo.save(item);
+        const categoryQuery = await cone
+            .manager
+            .findOne(Category, item.categoryId)
 
+        item.category = categoryQuery; item.list = itemQuery.list;
+
+        await cone
+            .getRepository(Item)
+            .save(item);
+
+        item.categoryId = item.category?.id; item.listId = item.list?.id;
         delete item.category; delete item.list; delete item.share;
 
         return this.ok(item);
@@ -103,11 +111,11 @@ export class ItemController extends ControllerBase {
         delete item.category.listId; delete item.list.listUser; delete item.list.category; delete item.list.item;
 
         try {
-            item.share.map((x: Share)=>{
+            item.share.map((x: Share) => {
                 delete x.item; delete x.user; delete x.userId; delete x.itemId;
             });
         }
-        catch (err) {}
+        catch (err) { }
 
         return this.ok(item);
     }

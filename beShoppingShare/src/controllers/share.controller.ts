@@ -45,10 +45,10 @@ export class ShareController extends ControllerBase {
 
         const cone = await this.connection;
         const usuario = await cone.manager.findOne(User, share.user.id);
-        if (!usuario) {return this.notFound({ message: 'Usuário não encontrado.' });}
+        if (!usuario) { return this.notFound({ message: 'Usuário não encontrado.' }); }
 
         const item = await cone.manager.findOne(Item, share.item.id);
-        if (!item) {return this.notFound({ message: 'Item não encontrada.' });}
+        if (!item) { return this.notFound({ message: 'Item não encontrada.' }); }
 
         share.user = usuario; share.item = item;
 
@@ -68,20 +68,22 @@ export class ShareController extends ControllerBase {
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
     @ProducesDefaultResponseType
     public async UpdateShare(req: Request, res: Response): Promise<ActionResult> {
-        
+
         const share = new Share(req.body);
 
-        if (!share || !share.id) {return this.badRequest({ message: 'Invalid request.' });}
+        if (!share || !share.id) { return this.badRequest({ message: 'Invalid request.' }); }
 
         const cone = await this.connection
         const shareQuery = await cone
             .manager
-            .findOne(Share,share.id)
+            .findOne(Share, share.id, { relations: ['item', 'user'] })
 
-        if (!shareQuery) {return this.notFound({ message: 'Contribuição não encontrada.' });}
+        if (!shareQuery) { return this.notFound({ message: 'Contribuição não encontrada.' }); }
+        share.item = shareQuery.item; share.user = shareQuery.user;
 
         await cone.getRepository(Share).save(share);
-        delete share.userId; delete share.itemId;
+
+        delete share.userId; delete share.itemId; delete share.item.categoryId; delete share.item.listId;
         delete share.item.list; delete share.item.category; delete share.item.share;
         delete share.user.categoryTemplate; delete share.user.listUser; delete share.user.password; delete share.user.passwordHash;
 
@@ -100,9 +102,9 @@ export class ShareController extends ControllerBase {
         const cone = await this.connection
         share = await cone
             .manager
-            .findOne(Share,share.id,{relations: ['user','item']})
+            .findOne(Share, share.id, { relations: ['user', 'item'] })
 
-        if (!share) {return this.notFound({ message: 'Contribuição não encontrada.' });}
+        if (!share) { return this.notFound({ message: 'Contribuição não encontrada.' }); }
 
         delete share.userId; delete share.itemId;
         delete share.item.list; delete share.item.category; delete share.item.share;
@@ -118,17 +120,17 @@ export class ShareController extends ControllerBase {
     @ProducesResponseType(InvalidRequest, StatusCodes.BadRequest)
     @ProducesDefaultResponseType
     public async DeleteItem(req: Request, res: Response): Promise<ActionResult> {
-        
+
         const share = new Share(req.params);
 
-        if (!share || !share.id) {return this.badRequest({ message: 'Invalid request.' });}
+        if (!share || !share.id) { return this.badRequest({ message: 'Invalid request.' }); }
 
         const cone = await this.connection
         const shareQuery = await cone
             .manager
-            .findOne(Share,share.id);
+            .findOne(Share, share.id);
 
-        if (!shareQuery) {return this.notFound({ message: 'Contribuição não encontrada.' });}
+        if (!shareQuery) { return this.notFound({ message: 'Contribuição não encontrada.' }); }
 
         await cone
             .getRepository(Share)

@@ -1,4 +1,4 @@
-import { Request } from 'express';
+import { Request } from 'express'; 
 import { Connection } from 'typeorm';
 import { server } from '../../app';
 import ActionResult, { ContentType } from '../../lib/models/actionresult';
@@ -64,7 +64,7 @@ export class ControllerBase {
         throw new ErrorHandler(statusCode ?? 500, message);
     }
 
-    protected async userContext(req: Request): Promise<any> {        
+    protected async userContext(req: Request): Promise<any> {
         const token = await getTokenObject(req.headers.authorization)
         return token.data;
     }

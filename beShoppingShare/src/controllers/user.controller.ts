@@ -20,7 +20,7 @@ export class UserController extends ControllerBase {
     @BodyType(Login)
     @ProducesResponseType(Token, StatusCodes.OK)
     @ProducesResponseType(UserNotFound, StatusCodes.BadRequest)
-    @ProducesResponseType(UserUnauthorized,StatusCodes.Unauthorized)
+    @ProducesResponseType(UserUnauthorized, StatusCodes.Unauthorized)
     @ProducesDefaultResponseType
     public async Login(req: Request, res: Response): Promise<ActionResult> {
 
@@ -179,9 +179,9 @@ export class UserController extends ControllerBase {
 
     @HttpPut('/changepassword/')
     @BodyType(UserChangePasswordReq)
-    @ProducesResponseType(UserChangePasswordRes,StatusCodes.OK)
-    @ProducesResponseType(UserNotFound,StatusCodes.NotFound)
-    @ProducesResponseType(UserUnauthorized,StatusCodes.Unauthorized)
+    @ProducesResponseType(UserChangePasswordRes, StatusCodes.OK)
+    @ProducesResponseType(UserNotFound, StatusCodes.NotFound)
+    @ProducesResponseType(UserUnauthorized, StatusCodes.Unauthorized)
     public async ChangePassword(req: Request, res: Response): Promise<ActionResult> {
 
         let user = new User(req.body)
@@ -221,8 +221,8 @@ export class UserController extends ControllerBase {
 
     @HttpPost('/category/')
     @BodyType(CategoryTemplateBody)
-    @ProducesResponseType(CategoryTemplate,StatusCodes.OK)
-    @ProducesResponseType(UserNotFound,StatusCodes.NotFound)
+    @ProducesResponseType(CategoryTemplate, StatusCodes.OK)
+    @ProducesResponseType(UserNotFound, StatusCodes.NotFound)
     @ProducesDefaultResponseType
     public async PostCategoryList(req: Request, res: Response): Promise<ActionResult> {
 
@@ -237,7 +237,7 @@ export class UserController extends ControllerBase {
             .manager
             .findOne(User, categoryTemplate)
 
-        if (!user) {return this.notFound({ message: 'Usuário não existe.' })}
+        if (!user) { return this.notFound({ message: 'Usuário não existe.' }) }
 
         categoryTemplate.user = user;
 
@@ -250,8 +250,8 @@ export class UserController extends ControllerBase {
     }
 
     @HttpDelete('/category/{id:number}')
-    @ProducesResponseType(CategoryTemplateDeleted,StatusCodes.OK)
-    @ProducesResponseType(CategoryTemplateNotFound,StatusCodes.NotFound)
+    @ProducesResponseType(CategoryTemplateDeleted, StatusCodes.OK)
+    @ProducesResponseType(CategoryTemplateNotFound, StatusCodes.NotFound)
     @ProducesDefaultResponseType
     public async DeleteCategoryList(req: Request, res: Response): Promise<ActionResult> {
 

@@ -6,6 +6,7 @@ import cors from 'cors';
 import { getTokenObject, log } from './lib/utils';
 import ErrorHandler from './lib/models/errorhandler';
 import { anonymousRoutes, swaggerJson } from './lib/dynamicloader';
+import helmet from 'helmet';
 
 export class Server {
 
@@ -23,6 +24,7 @@ export class Server {
     public setup(func?: (app: Express) => void): void {
         this.app.use(cors());
 
+        this.app.use(helmet())
         this.app.get('/favicon.ico', (req, res) => res.sendStatus(204));
         
         this.app.use('/swagger', swaggerUi.serve);

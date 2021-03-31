@@ -2,21 +2,21 @@ import { SwaggerType, SwaggerTypes } from '../lib/decorators';
 
 export class UserNotFound {
 
-    @SwaggerType(SwaggerTypes.string,'Usuário não encontrado.')
+    @SwaggerType(SwaggerTypes.string, 'Usuário não encontrado.')
     public message: string;
 
 }
 
 export class UserDeleted {
 
-    @SwaggerType(SwaggerTypes.string,'Usuário deletado com sucesso.')
+    @SwaggerType(SwaggerTypes.string, 'Usuário deletado com sucesso.')
     public message: string;
 
 }
 
 export class UserUnauthorized {
 
-    @SwaggerType(SwaggerTypes.string,'Senha incorreta.')
+    @SwaggerType(SwaggerTypes.string, 'Senha incorreta.')
     public message: string;
 
 }
@@ -38,16 +38,16 @@ export class UserSignUpBody {
 
 export class UserSimpleRes {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number;
 
     @SwaggerType(SwaggerTypes.email)
     public email: string;
 
-    @SwaggerType(SwaggerTypes.string,'End')
+    @SwaggerType(SwaggerTypes.string, 'End')
     public firstName: string;
 
-    @SwaggerType(SwaggerTypes.string,'Game')
+    @SwaggerType(SwaggerTypes.string, 'Game')
     public lastName: string;
 
     @SwaggerType(SwaggerTypes.date)
@@ -61,16 +61,16 @@ export class UserSimpleRes {
 
 export class UserSimpleReq {
 
-    @SwaggerType(SwaggerTypes.number,1)
+    @SwaggerType(SwaggerTypes.number, 1)
     public id: number;
 
     @SwaggerType(SwaggerTypes.email)
     public email: string;
 
-    @SwaggerType(SwaggerTypes.string,'End')
+    @SwaggerType(SwaggerTypes.string, 'End')
     public firstName: string;
 
-    @SwaggerType(SwaggerTypes.string,'Game')
+    @SwaggerType(SwaggerTypes.string, 'Game')
     public lastName: string;
 
 }
@@ -83,7 +83,7 @@ export class UserChangePasswordReq {
     @SwaggerType(SwaggerTypes.password)
     public password: string;
 
-    @SwaggerType(SwaggerTypes.password,'Passw0rd#')
+    @SwaggerType(SwaggerTypes.password, 'Passw0rd#')
     public PasswordNew: string;
 
 }
