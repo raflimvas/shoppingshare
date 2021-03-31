@@ -23,7 +23,7 @@ export class Category {
         this.list = obj && obj.list || {};
         this.name = obj && obj.name || null;
         this.item = null;
-        if (obj && obj.listUser) {
+        if (obj && obj.item) {
             this.item = Array.isArray(obj.item) ? obj.item.map((x: any) => new Item(x)) : [];
         }
     }

@@ -38,8 +38,8 @@ export class List {
         this.name = obj && obj.name || null;
         this.description = obj && obj.description || null;
         this.listUsers = null;
-        if (obj && obj.listUser) {
-            this.listUsers = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
+        if (obj && obj.listUsers) {
+            this.listUsers = Array.isArray(obj.listUsers) ? obj.listUsers.map((x: any) => new ListUser(x)) : [];
         }
         this.items = null;
         if (obj && obj.items) {

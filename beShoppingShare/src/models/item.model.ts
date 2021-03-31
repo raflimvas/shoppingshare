@@ -59,7 +59,7 @@ export class Item {
         this.category = obj && obj.category || {};
         this.shares = null;
         if (obj && obj.shares)
-            this.shares = Array.isArray(obj.share) ? obj.share.map((x: any) => new Share(x)) : [];
+            this.shares = Array.isArray(obj.shares) ? obj.shares.map((x: any) => new Share(x)) : [];
     }
 
 }
