@@ -9,7 +9,7 @@ export class Category {
 
     public name: string;
 
-    public item: Item[];
+    // public item: Item[];
 
     constructor(obj?: any) {
         this.id = obj && obj.id || 0;
@@ -18,10 +18,10 @@ export class Category {
           this.list = new List(obj.list);
         }
         this.name = obj && obj.name || null;
-        this.item = [];
-        if (obj && obj.item) {
-            this.item = Array.isArray(obj.item) ? obj.item.map((x: any) => new Item(x)) : [];
-        }
+        // this.item = [];
+        // if (obj && obj.item) {
+        //   this.item = Array.isArray(obj.item) ? obj.item.map((x: any) => new Item(x)) : [];
+        // }
     }
 
 }

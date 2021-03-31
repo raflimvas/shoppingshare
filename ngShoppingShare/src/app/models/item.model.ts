@@ -1,5 +1,4 @@
 import { Category } from "./category.model";
-import { List } from "./list.model";
 import { Share } from "./share.model";
 
 export enum Unit {
@@ -24,9 +23,9 @@ export class Item {
 
     public unit: Unit;
 
-    public list: List;
+    // public list: List;
 
-    public category: Category;
+    // public category: Category;
 
     public shares: Share[];
 
@@ -37,14 +36,14 @@ export class Item {
         this.value = obj && obj.value || null;
         this.weight = obj && obj.weight || null;
         this.unit = obj && obj.unit || Unit.un;
-        this.list = null;
-        if (obj && obj.list) {
-          this.list = new List(obj.list);
-        }
-        this.category = null;
-        if (obj && obj.category) {
-          this.category = new Category(obj.category);
-        }
+        // this.list = null;
+        // if (obj && obj.list) {
+        //   this.list = new List(obj.list);
+        // }
+        // this.category = null;
+        // if (obj && obj.category) {
+        //   this.category = new Category(obj.category);
+        // }
         this.shares = [];
         if (obj && obj.shares)
             this.shares = Array.isArray(obj.shares) ? obj.shares.map((x: any) => new Share(x)) : [];

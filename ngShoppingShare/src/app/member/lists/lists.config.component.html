@@ -1,8 +1,8 @@
 <div class="d-flex w-100 h-100">
   <div class="d-flex flex-column w-100 mt-3 px-5 py-4 overflow-auto">
     <div class="d-flex flex-column">
-      <h1>{{ model.nome }}</h1>
-      <h3>{{ model.descricao }}</h3>
+      <h1>{{ model.name }}</h1>
+      <h3>{{ model.description }}</h3>
     </div>
     <h2 class="mt-5">Categorias:</h2>
     <div class="d-flex flex-row flex-wrap">
@@ -23,8 +23,8 @@
       <fa-icon class="my-auto" [icon]="plusIcon"></fa-icon>
       Adicionar
     </button>
-    <i *ngIf="model.itens.length == 0">Nenhum</i>
-    <div *ngIf="model.itens.length > 0" class="d-flex flex-row">
+    <i *ngIf="model.items.length == 0">Nenhum</i>
+    <div *ngIf="model.items.length > 0" class="d-flex flex-row">
       <div class="d-flex flex-column bg-white">
 
       </div>

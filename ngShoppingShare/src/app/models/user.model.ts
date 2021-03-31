@@ -11,13 +11,15 @@ export class User {
 
     public lastName: string;
 
+    public get fullName(): string {
+      return this.firstName + ' ' + this.lastName;
+    }
+
     public password: string;
 
-    public passwordHash: string;
+    // public listUsers: ListUser[];
 
-    public listUsers: ListUser[];
-
-    public categoryTemplates: CategoryTemplate[];
+    // public categoryTemplates: CategoryTemplate[];
 
     constructor(obj?: any) {
 
@@ -26,15 +28,14 @@ export class User {
         this.firstName = obj && obj.firstName || null;
         this.lastName = obj && obj.lastName || null;
         this.password = obj && obj.password || null;
-        this.passwordHash = obj && obj.passwordHash || null;
-        this.listUsers = [];
-        if (obj && obj.listUser) {
-            this.listUsers = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
-        }
-        this.categoryTemplates = [];
-        if (obj && obj.categoryTemplates) {
-            this.categoryTemplates = Array.isArray(obj.categoryTemplates) ? obj.categoryTemplates.map((x: any) => new CategoryTemplate(x)) : [];
-        }
+        // this.listUsers = [];
+        // if (obj && obj.listUser) {
+        //   this.listUsers = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
+        // }
+        // this.categoryTemplates = [];
+        // if (obj && obj.categoryTemplates) {
+        //    this.categoryTemplates = Array.isArray(obj.categoryTemplates) ? obj.categoryTemplates.map((x: any) => new CategoryTemplate(x)) : [];
+        // }
 
     }
 }

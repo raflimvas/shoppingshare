@@ -1,4 +1,4 @@
 export const environment = {
   production: true,
-  apiEndpoint: 'https://rest-api-shopshare.herokuapp.com/'
+  apiEndpoint: 'https://shopping-share-api.herokuapp.com/'
 };

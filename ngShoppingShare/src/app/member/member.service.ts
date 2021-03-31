@@ -1,6 +1,8 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { Category, CategoryResult, List, ListItem, ListResult } from "@app/models/list.model";
+import { Category } from "@app/models/category.model";
+import { Item } from "@app/models/item.model";
+import { List } from "@app/models/list.model";
 import { User } from "@app/models/user.model";
 import { UserSessionService } from "@app/shared/services/usersession.service";
 import { Observable, throwError } from "rxjs";
@@ -13,7 +15,7 @@ export class MemberService {
   constructor(private http: HttpClient, private userSessionService: UserSessionService) { }
 
   public putProfile(data: User): Observable<User> {
-    delete data.senha;
+    delete data.password;
     return this.http.put(
       environment.apiEndpoint + 'user',
       JSON.stringify(data),
@@ -35,12 +37,12 @@ export class MemberService {
     );
   }
 
-  public getLists(): Observable<ListResult> {
+  public getLists(): Observable<List[]> {
     return this.http.get(
       environment.apiEndpoint + 'list/all',
       { observe: 'response' }
     ).pipe(
-      map(x => new ListResult(x.body)),
+      map(x => (<any>x.body).map((y: any) => new List(y))),
       catchError(err => throwError(err))
     );
   }
@@ -55,23 +57,23 @@ export class MemberService {
     );
   }
 
-  public postItem(entity: ListItem): Observable<ListItem> {
+  public postItem(entity: Item): Observable<Item> {
     return this.http.post(
       environment.apiEndpoint + 'item',
       JSON.stringify(entity),
       { observe: 'response' }
     ).pipe(
-      map(x => new ListItem(x.body)),
+      map(x => new Item(x.body)),
       catchError(err => throwError(err))
     );
   }
 
-  public getCategory(id: number): Observable<CategoryResult> {
+  public getCategory(id: number): Observable<Category[]> {
     return this.http.get(
       environment.apiEndpoint + 'list/category/' + id,
       { observe: 'response' }
     ).pipe(
-      map(x => new CategoryResult(x.body)),
+      map(x => (<any>x.body).map((y: any) => new Category(y))),
       catchError(err => throwError(err))
     );
   }

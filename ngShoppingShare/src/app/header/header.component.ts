@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, Renderer2, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
-import { List, ListResult } from '@app/models/list.model';
+import { List } from '@app/models/list.model';
 import { User } from '@app/models/user.model';
 import { faCog, faEdit, faPlusCircle, faSignOutAlt, faWrench } from '@fortawesome/free-solid-svg-icons';
 import { UserSessionService } from '@shared/services/usersession.service';

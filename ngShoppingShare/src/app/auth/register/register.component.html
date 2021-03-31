@@ -22,41 +22,41 @@
           <div class="col-5">
             <div class="form-floating mb-3">
               <input type="text" id="input-firstname" class="form-control mb-2" placeholder="Nome"
-                formControlName="FirstName" [ngClass]="getValidationClass('FirstName')">
+                formControlName="firstName" [ngClass]="getValidationClass('firstName')">
               <label for="input-firstname">Nome</label>
-              <app-validation-message name="FirstName" [formGroup]="formGroup"></app-validation-message>
+              <app-validation-message name="firstName" [formGroup]="formGroup"></app-validation-message>
             </div>
           </div>
           <div class="col-7">
             <div class="form-floating mb-3">
               <input type="text" id="input-lastname" class="form-control mb-2" placeholder="Sobrenome"
-                formControlName="LastName" [ngClass]="getValidationClass('LastName')">
+                formControlName="lastName" [ngClass]="getValidationClass('lastName')">
               <label for="input-lastname">Sobrenome</label>
-              <app-validation-message name="LastName" [formGroup]="formGroup"></app-validation-message>
+              <app-validation-message name="lastName" [formGroup]="formGroup"></app-validation-message>
             </div>
           </div>
         </div>
         <div class="d-flex flex-column form-floating mb-3">
           <input type="email" id="input-email" class="form-control" placeholder="Email"
-            formControlName="Email" [ngClass]="getValidationClass('Email')">
+            formControlName="email" [ngClass]="getValidationClass('email')">
           <label for="input-email">E-mail</label>
-          <app-validation-message class="mt-2" name="Email" [formGroup]="formGroup"></app-validation-message>
+          <app-validation-message class="mt-2" name="email" [formGroup]="formGroup"></app-validation-message>
         </div>
         <div class="row">
           <div class="col-6">
             <div class="form-floating mb-3">
               <input type="password" id="input-password" class="form-control mb-2" placeholder="Senha"
-                formControlName="Password" [ngClass]="getValidationClass('Password')">
+                formControlName="password" [ngClass]="getValidationClass('password')">
               <label for="input-password">Senha</label>
-              <app-validation-message name="Password" [formGroup]="formGroup"></app-validation-message>
+              <app-validation-message name="password" [formGroup]="formGroup"></app-validation-message>
             </div>
           </div>
           <div class="col-6">
             <div class="form-floating mb-3">
               <input type="password" id="input-repeat-password" class="form-control mb-2" placeholder="Repetir Senha"
-                formControlName="RepeatPassword" [ngClass]="getValidationClass('RepeatPassword')">
+                formControlName="repeatPassword" [ngClass]="getValidationClass('repeatPassword')">
               <label for="input-repeat-password">Repetir a Senha</label>
-              <app-validation-message name="RepeatPassword" [formGroup]="formGroup"></app-validation-message>
+              <app-validation-message name="repeatPassword" [formGroup]="formGroup"></app-validation-message>
               <br />
               <span *ngIf="formGroup.hasError('notequal')" class="text-danger">{{ passwordNotEqualText }}</span>
             </div>

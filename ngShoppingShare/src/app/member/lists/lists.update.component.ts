@@ -1,6 +1,7 @@
 import { Component } from "@angular/core";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ActivatedRoute, Router } from "@angular/router";
+import { List } from "@app/models/list.model";
 import { ToastService } from "@app/shared/services/toast.service";
 import { MemberService } from "../member.service";
 
@@ -18,9 +19,9 @@ export class ListsUpdateComponent {
     private toastService: ToastService
   ) {
     this.formGroup = formBuilder.group({
-      Id: [ 0, [ ] ],
-      Nome: [ null, [ Validators.required ] ],
-      Descricao: [ null, [ Validators.required ] ]
+      id: [ 0, [ ] ],
+      name: [ null, [ Validators.required ] ],
+      description: [ null, [ Validators.required ] ]
     });
   }
 
@@ -28,9 +29,9 @@ export class ListsUpdateComponent {
     if (history.state.id_list && history.state.id_list > 0) {
       this.memberService.getListById(history.state.id_list).subscribe(x => {
         this.formGroup.setValue({
-          Id: x.id_list,
-          Nome: x.nome,
-          Descricao: x.descricao
+          id: x.id,
+          name: x.name,
+          description: x.description
         });
       });
     } else {
@@ -39,12 +40,12 @@ export class ListsUpdateComponent {
   }
 
   onSubmitClicked(e: any): void {
-    this.memberService.putList({
-      id_list: e.Id,
-      nome: e.Nome,
-      descricao: e.Descricao,
+    this.memberService.putList(new List({
+      id: e.id,
+      name: e.name,
+      description: e.description,
       itens: []
-    }).subscribe(x => {
+    })).subscribe(x => {
       this.toastService.success('Sucesso', 'Lista atualizada com sucesso!');
       this.router.navigate(['member']);
     });

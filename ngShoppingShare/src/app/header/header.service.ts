@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
-import { List, ListResult } from "@app/models/list.model";
+import { List } from "@app/models/list.model";
 import { User } from "@app/models/user.model";
 import { UserSessionService } from "@app/shared/services/usersession.service";
 import { Observable, throwError } from "rxjs";
@@ -31,7 +31,7 @@ export class HeaderService {
       environment.apiEndpoint + 'list/all',
       { observe: 'response' }
     ).pipe(
-      map(x => (new ListResult(x.body)).lists),
+      map(x => (<any>x.body).map((y: any) => new List(y))),
       catchError(err => throwError(err))
     );
   }
