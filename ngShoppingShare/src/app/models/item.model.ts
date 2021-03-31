@@ -23,8 +23,6 @@ export class Item {
 
     public unit: Unit;
 
-    public category: any;
-
     // public list: List;
 
     // public category: Category;

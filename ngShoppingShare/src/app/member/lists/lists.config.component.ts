@@ -23,6 +23,10 @@ export class ListsConfigComponent implements OnInit {
 
   public showItemModal: boolean = false;
   public item: Item = null;
+  public selectedCategory: any = null;
+
+  public showShareModal: boolean = false;
+  public shareEmail: string = null;
 
   public model: List = new List();
   public categories: Category[];
@@ -59,28 +63,77 @@ export class ListsConfigComponent implements OnInit {
     }
   }
 
+  shareListCallback(status: 'ok' | 'cancel') {
+    this.showCategoryModal = false;
+    if (status === 'ok') {
+      this.memberService.postCategory({
+        name: this.categoryName,
+        listId: this.model.id
+      }).subscribe(
+        x => {
+          this.categories.push(x);
+          this.toastService.success('Sucesso', 'Categoria criada com sucesso!');
+        },
+        err => this.toastService.error('Erro', 'Houve um erro ao criar a categoria, tente novamente mais tarde!'),
+        () => { }
+      );
+    }
+  }
+
+  canSubmitShare(): boolean {
+    return this.shareEmail != null && this.shareEmail.replace(/\s*/g, '') != '';
+  }
+
+  shareList(): void {
+    this.showShareModal = true;
+  }
+
   addItemCallback(status: 'ok' | 'cancel') {
     this.showItemModal = false;
     if (status === 'ok') {
-      this.memberService.postItem(this.item, this.model.id, 0).subscribe(
-        x => {
-          this.model.items.push(x);
-          this.toastService.success('Sucesso', 'Item criado com sucesso!');
-        },
-        err => this.toastService.error('Erro', 'Houve um erro ao criar o item, tente novamente mais tarde!'),
-        () => { }
-      );
+      const cat = JSON.parse(this.selectedCategory);
+      if (cat.from == 'user') {
+        this.memberService.postCategory({
+          name: cat.name,
+          listId: this.model.id
+        }).subscribe(
+          x => {
+            this.categories.push(x);
+
+            this.memberService.postItem(this.item, this.model.id, x.id).subscribe(
+              x => {
+                this.model.item.push(x);
+                this.toastService.success('Sucesso', 'Item criado com sucesso!');
+              },
+              err => this.toastService.error('Erro', 'Houve um erro ao criar o item, tente novamente mais tarde!'),
+              () => { }
+            );
+          },
+          err => this.toastService.error('Erro', 'Houve um erro ao criar a categoria, tente novamente mais tarde!'),
+          () => { }
+        );
+      } else if (cat.from == 'list') {
+        this.memberService.postItem(this.item, this.model.id, cat.id).subscribe(
+          x => {
+            this.model.item.push(x);
+            this.toastService.success('Sucesso', 'Item criado com sucesso!');
+          },
+          err => this.toastService.error('Erro', 'Houve um erro ao criar o item, tente novamente mais tarde!'),
+          () => { }
+        );
+      }
     }
   }
 
   canSubmitItem(): boolean {
     return this.item &&
       this.item.name != null && this.item.name.replace(/\s*/g, '') != '' &&
-      this.item.value > 0 && this.item.weight > 0 && this.item.category != null;
+      this.item.value > 0 && this.item.weight > 0 && this.selectedCategory != null;
   }
 
   addItem(): void {
     this.item = new Item(null);
+    this.selectedCategory = null;
     this.showItemModal = true;
   }
 
@@ -122,6 +175,21 @@ export class ListsConfigComponent implements OnInit {
         }
       },
       err => this.toastService.error('Erro', 'Ocorreu um erro ao excluir a categoria, tente novamente mais tarde!'),
+      () => { });
+  }
+
+  removeItem(e: number): void {
+    this.memberService.deleteItem(e).subscribe(
+      x => {
+        if (x) {
+          const index = this.model.item.findIndex(x => x.id == e);
+          if (index >= 0) {
+            this.model.item.splice(index, 1);
+            this.toastService.success('Sucesso', 'Item excluido com sucesso!');
+          }
+        }
+      },
+      err => this.toastService.error('Erro', 'Ocorreu um erro ao excluir o item, tente novamente mais tarde!'),
       () => { });
   }
 

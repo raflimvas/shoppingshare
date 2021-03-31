@@ -1,7 +1,10 @@
 <div class="d-flex w-100 h-100">
   <div class="d-flex flex-column w-100 mt-3 px-5 py-4 overflow-auto">
     <div class="d-flex flex-column">
-      <h1>{{ model.name }}</h1>
+      <div class="d-flex flex-row">
+        <h1 class="me-auto my-auto">{{ model.name }}</h1>
+        <button type="button" class="btn btn-primary my-auto" (click)="shareList()">Compartilhar</button>
+      </div>
       <h3>{{ model.description }}</h3>
     </div>
     <h2 class="mt-5">Categorias:</h2>
@@ -23,10 +26,42 @@
       <fa-icon class="my-auto" [icon]="plusIcon"></fa-icon>
       Adicionar
     </button>
-    <i *ngIf="model.items.length == 0">Nenhum</i>
-    <div *ngIf="model.items.length > 0" class="d-flex flex-row">
-      <div class="d-flex flex-column bg-white">
+    <i *ngIf="model.item.length == 0">Nenhum</i>
+    <div *ngIf="model.item.length > 0" class="d-flex flex-row">
+      <div class="d-flex flex-column">
+        <div class="d-flex flex-row px-3 py-1 me-2 my-1 border border-dark rounded-3 bg-white" *ngFor="let i of model.item">
+          <span class="me-3">{{ i.name }}</span>
+          <a style="cursor: pointer;" (click)="removeItem(i.id)">
+            <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
 
+<div *ngIf="showShareModal" class="category-modal">
+  <div class="d-flex w-100 h-100">
+    <div class="d-flex flex-column m-auto bg-white border rounded py-2">
+      <div class="d-flex flex-row w-100 px-5">
+        <h3 class="my-auto">Compartilhar lista</h3>
+        <a style="cursor: pointer;" class="ms-auto my-auto" (click)="shareListCallback('cancel')">
+          <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
+        </a>
+      </div>
+      <hr class="mt-2 mb-3" />
+      <div class="d-flex flex-column w-100 px-5">
+        <div class="form-floating">
+          <input type="email" id="text-name" class="form-control" placeholder="Email" [(ngModel)]="shareEmail">
+          <label for="text-name">Email</label>
+        </div>
+      </div>
+      <hr class="mb-2 mt-3" />
+      <div class="d-flex flex-row w-100 px-5">
+        <button type="button" class="btn btn-white border border-primary me-3 ms-auto"
+          (click)="shareListCallback('cancel')">Cancelar</button>
+        <button type="button" class="btn btn-primary" [disabled]="!canSubmitShare()"
+          (click)="shareListCallback('ok')">Compartilhar</button>
       </div>
     </div>
   </div>
@@ -100,8 +135,9 @@
           </div>
         </div>
         <div class="form-floating">
-          <select id="cat" name="cat" class="form-control" placeholder="Categoria" [(ngModel)]="item.category">
-            <option *ngFor="let c of allCategories" [value]="c">{{ c.name }}</option>
+          <select id="cat" name="cat" class="form-control" placeholder="Categoria" [(ngModel)]="selectedCategory">
+            <option [value]="null">Selecione:</option>
+            <option *ngFor="let c of allCategories" [value]="c | json">{{ c.name }}</option>
           </select>
           <label for="cat">Categoria</label>
         </div>

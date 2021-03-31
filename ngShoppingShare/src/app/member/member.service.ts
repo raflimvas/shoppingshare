@@ -15,6 +15,18 @@ export class MemberService {
 
   constructor(private http: HttpClient, private userSessionService: UserSessionService) { }
 
+  public share(data: User): Observable<User> {
+    delete data.password;
+    return this.http.put(
+      environment.apiEndpoint + 'user',
+      JSON.stringify(data),
+      { observe: 'response' }
+    ).pipe(
+      map(x => new User(x.body)),
+      catchError(err => throwError(err))
+    );
+  }
+
   public putProfile(data: User): Observable<User> {
     delete data.password;
     return this.http.put(
@@ -87,7 +99,7 @@ export class MemberService {
       environment.apiEndpoint + 'list/category/' + id,
       { observe: 'response' }
     ).pipe(
-      map(x => ((<any>x.body).user ?? []).map(y => new CategoryTemplate(y))),
+      map(x => ((<any>x.body).userCategories ?? []).map(y => new CategoryTemplate(y))),
       catchError(err => throwError(err))
     );
   }
@@ -106,6 +118,16 @@ export class MemberService {
   public deleteCategory(id: number): Observable<boolean> {
     return this.http.delete(
       environment.apiEndpoint + 'list/category/' + id,
+      { observe: 'response' }
+    ).pipe(
+      map(x => true),
+      catchError(err => throwError(err))
+    );
+  }
+
+  public deleteItem(id: number): Observable<boolean> {
+    return this.http.delete(
+      environment.apiEndpoint + 'item/' + id,
       { observe: 'response' }
     ).pipe(
       map(x => true),

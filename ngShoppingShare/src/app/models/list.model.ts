@@ -11,7 +11,7 @@ export class List {
 
     // public listUsers: ListUser[];
 
-    public items: Item[];
+    public item: Item[];
 
     // public categories: Category[];
 
@@ -23,9 +23,9 @@ export class List {
         // if (obj && obj.listUsers) {
         //   this.listUsers = Array.isArray(obj.listUsers) ? obj.listUsers.map((x: any) => new ListUser(x)) : [];
         // }
-        this.items = [];
-        if (obj && obj.items) {
-            this.items = Array.isArray(obj.items) ? obj.items.map((x: any) => new Item(x)) : [];
+        this.item = [];
+        if (obj && obj.item) {
+            this.item = Array.isArray(obj.item) ? obj.item.map((x: any) => new Item(x)) : [];
         }
         // this.categories = [];
         // if (obj && obj.categories) {
