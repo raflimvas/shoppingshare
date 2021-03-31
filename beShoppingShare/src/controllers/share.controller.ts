@@ -20,6 +20,7 @@ import { InvalidRequest, TokenUnauthorized } from '../viewmodels/common.viewmode
 import { UserNotFound } from '../viewmodels/user.viewmodel';
 import { ItemNotFound } from '../viewmodels/item.viewmodel';
 import { ShareDeleted, ShareFull, ShareNotFound, SharePostBody, ShareSimple } from '../viewmodels/share.viewmodel';
+import { getTokenObject } from '../lib/utils';
 
 @ApiController('/share')
 export class ShareController extends ControllerBase {
@@ -35,12 +36,13 @@ export class ShareController extends ControllerBase {
     public async PostShare(req: Request, res: Response): Promise<ActionResult> {
 
         const share = new Share(req.body);
+        let userToken: User = await getTokenObject(req.headers.authorization);
 
-        if (!share || !req.body.itemId || !share.weight || !req.body.userId) {
-            return this.badRequest({ message: 'Invalid request.' });
-        }
+        if (!userToken) { return this.unauthorized({ message: 'Token não enviado ou inválido.' }) }
 
-        share.user.id = req.body.userId || 0;
+        if (!share || !req.body.itemId || !share.weight) { return this.badRequest({ message: 'Invalid request.' }); }
+
+        share.user.id = userToken.id || 0;
         share.item.id = req.body.itemId || 0;
 
         const cone = await this.connection;
@@ -70,6 +72,9 @@ export class ShareController extends ControllerBase {
     public async UpdateShare(req: Request, res: Response): Promise<ActionResult> {
 
         const share = new Share(req.body);
+        let userToken: User = await getTokenObject(req.headers.authorization);
+
+        if (!userToken) { return this.unauthorized({ message: 'Token não enviado ou inválido.' }) }
 
         if (!share || !share.id) { return this.badRequest({ message: 'Invalid request.' }); }
 
@@ -80,8 +85,10 @@ export class ShareController extends ControllerBase {
 
         if (!shareQuery) { return this.notFound({ message: 'Contribuição não encontrada.' }); }
         share.item = shareQuery.item; share.user = shareQuery.user;
+        shareQuery.value = share.value;
+        shareQuery.weight = share.weight;
 
-        await cone.getRepository(Share).save(share);
+        await cone.getRepository(Share).save(shareQuery);
 
         delete share.userId; delete share.itemId; delete share.item.categoryId; delete share.item.listId;
         delete share.item.list; delete share.item.category; delete share.item.share;
