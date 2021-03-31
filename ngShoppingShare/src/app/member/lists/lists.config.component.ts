@@ -23,7 +23,7 @@ export class ListsConfigComponent implements OnInit {
   public showItemModal: boolean = false;
   public item: Item = null;
 
-  public model: List = <any>{};
+  public model: List = new List();
   public categories: Category[];
 
   constructor(
@@ -73,9 +73,8 @@ export class ListsConfigComponent implements OnInit {
     this.showCategoryModal = false;
     if (status === 'ok') {
       this.memberService.postCategory({
-        id: 0,
         name: this.categoryName,
-        list: <any>{ id: this.model.id }
+        listId: this.model.id
       }).subscribe(
         x => {
           this.categories.push(x);

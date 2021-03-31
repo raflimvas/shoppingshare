@@ -70,15 +70,15 @@ export class MemberService {
 
   public getCategory(id: number): Observable<Category[]> {
     return this.http.get(
-      environment.apiEndpoint + 'list/category/' + id,
+      environment.apiEndpoint + 'list/' + id,
       { observe: 'response' }
     ).pipe(
-      map(x => (<any>x.body).map((y: any) => new Category(y))),
+      map(x => ((<any>x.body).category ?? []).map(y => new Category(y))),
       catchError(err => throwError(err))
     );
   }
 
-  public postCategory(entity: Category): Observable<Category> {
+  public postCategory(entity: {name: string, listId: number}): Observable<Category> {
     return this.http.post(
       environment.apiEndpoint + 'list/category',
       JSON.stringify(entity),

@@ -91,7 +91,6 @@ export async function loadControllers(): Promise<{ route: string, instance: Rout
                                 instance: router
                             });
                         }
-
                         resolve(result);
                     } else {
                         reject(er);
@@ -126,5 +125,7 @@ function defineSwaggerDefaults() {
         schemas: swaggerSchemas
     };
     swaggerJson.host = 'shopping-share-api.herokuapp.com'
+
     swaggerJson.paths = {};
+
 }
