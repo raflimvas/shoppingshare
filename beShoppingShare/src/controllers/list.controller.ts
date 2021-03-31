@@ -244,7 +244,7 @@ export class ListController extends ControllerBase {
         const cone = (await this.connection)
         const user: User = await cone
             .manager
-            .findOne(User, req.body.email)
+            .findOne(User, {where: {email: req.body.email}})
 
         if (!user) { return this.notFound({ message: 'Usuário não encontrado.' }) }
 
