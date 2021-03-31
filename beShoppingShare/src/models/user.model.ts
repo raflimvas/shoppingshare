@@ -6,7 +6,7 @@ import { CategoryTemplate } from './categoryTemplate.model';
 @Entity()
 export class User {
     
-    @SwaggerType(SwaggerTypes.number)
+    @SwaggerType(SwaggerTypes.number,1)
     @PrimaryGeneratedColumn()
     public id: number;
 
@@ -14,11 +14,11 @@ export class User {
     @Column('varchar', { length: 200, unique: true, nullable: false })
     public email: string;
 
-    @SwaggerType(SwaggerTypes.string)
+    @SwaggerType(SwaggerTypes.string,'End')
     @Column('varchar', { length: 100, unique: false, nullable: false })
     public firstName: string;
 
-    @SwaggerType(SwaggerTypes.string)
+    @SwaggerType(SwaggerTypes.string,'Game')
     @Column('varchar', { length: 200, unique: false, nullable: false })
     public lastName: string;
 
@@ -30,11 +30,11 @@ export class User {
 
     @SwaggerArray('ListUser')
     @OneToMany(() => ListUser, listUser => listUser.user)
-    public listUsers: ListUser[]
+    public listUser: ListUser[]
 
     @SwaggerArray('CategoryTemplate')
     @OneToMany(() => CategoryTemplate, categoryTemplate => categoryTemplate.user)
-    public categoryTemplates: CategoryTemplate[]
+    public categoryTemplate: CategoryTemplate[]
 
     @SwaggerType(SwaggerTypes.date)
     @CreateDateColumn()
@@ -52,13 +52,13 @@ export class User {
         this.lastName = obj && obj.lastName || null;
         this.password = obj && obj.password || null;
         this.passwordHash = obj && obj.passwordHash || null;
-        this.listUsers = null;
+        this.listUser = null;
         if (obj && obj.listUser) {
-            this.listUsers = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
+            this.listUser = Array.isArray(obj.listUser) ? obj.listUser.map((x: any) => new ListUser(x)) : [];
         }
-        this.categoryTemplates = null;
-        if (obj && obj.categoryTemplates) {
-            this.categoryTemplates = Array.isArray(obj.categoryTemplates) ? obj.categoryTemplates.map((x: any) => new CategoryTemplate(x)) : [];
+        this.categoryTemplate = null;
+        if (obj && obj.categoryTemplate) {
+            this.categoryTemplate = Array.isArray(obj.categoryTemplate) ? obj.categoryTemplate.map((x: any) => new CategoryTemplate(x)) : [];
         }
 
     }
