@@ -107,7 +107,7 @@ export class ItemController extends ControllerBase {
             .manager
             .find(Item, {
                 where: { list: list },
-                relations: ['share']
+                relations: ['share','category']
             })
 
         return this.ok({item: item});
