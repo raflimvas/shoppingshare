@@ -117,7 +117,7 @@ export class ListController extends ControllerBase {
         const item = await cone
             .manager
             .find(Item, {
-                where: { listId: list.id },
+                where: { list: list },
                 relations: ['share']
             })
 
