@@ -112,7 +112,16 @@ export class ListController extends ControllerBase {
         const cone = (await this.connection);
         list = await cone
             .manager
-            .findOne(List, list.id, { relations: ['item', 'category', 'listUser'] })
+            .findOne(List, list.id, { relations: ['category', 'listUser'] })
+
+        const item = await cone
+            .manager
+            .find(Item, {
+                where: { listId: list.id },
+                relations: ['share']
+            })
+
+        list.item = item;
 
         try {
             list.category.map((x: Category) => {
@@ -244,7 +253,7 @@ export class ListController extends ControllerBase {
         const cone = (await this.connection)
         const user: User = await cone
             .manager
-            .findOne(User, {where: {email: req.body.email}})
+            .findOne(User, { where: { email: req.body.email } })
 
         if (!user) { return this.notFound({ message: 'Usuário não encontrado.' }) }
 
