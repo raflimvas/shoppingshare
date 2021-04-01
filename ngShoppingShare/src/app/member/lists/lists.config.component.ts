@@ -6,7 +6,7 @@ import { CategoryTemplate } from "@app/models/categoryTemplate.model";
 import { Item } from "@app/models/item.model";
 import { List } from "@app/models/list.model";
 import { ToastService } from "@app/shared/services/toast.service";
-import { faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
+import { faMoneyBillWave, faPlus, faTimes } from "@fortawesome/free-solid-svg-icons";
 import { MemberService } from "../member.service";
 
 @Component({
@@ -17,6 +17,7 @@ export class ListsConfigComponent implements OnInit {
 
   public xIcon = faTimes;
   public plusIcon = faPlus;
+  public moneyIcon = faMoneyBillWave;
 
   public showCategoryModal: boolean = false;
   public categoryName: string = null;
@@ -46,6 +47,10 @@ export class ListsConfigComponent implements OnInit {
     private toastService: ToastService
   ) { }
 
+  getListItems(): Item[] {
+    return this.model.item;
+  }
+
   ngOnInit() {
     if (history.state.id_list && history.state.id_list > 0) {
       this.memberService.getListById(history.state.id_list).subscribe(x => {
@@ -64,17 +69,19 @@ export class ListsConfigComponent implements OnInit {
   }
 
   shareListCallback(status: 'ok' | 'cancel') {
-    this.showCategoryModal = false;
+    this.showShareModal = false;
     if (status === 'ok') {
-      this.memberService.postCategory({
-        name: this.categoryName,
+      this.memberService.share({
+        email: this.shareEmail,
         listId: this.model.id
       }).subscribe(
         x => {
-          this.categories.push(x);
-          this.toastService.success('Sucesso', 'Categoria criada com sucesso!');
+          this.toastService.success('Sucesso', 'Lista compartilhada com sucesso!');
         },
-        err => this.toastService.error('Erro', 'Houve um erro ao criar a categoria, tente novamente mais tarde!'),
+        err => {
+          if (err.error?.message != null) this.toastService.error('Erro', err.error.message)
+          else this.toastService.error('Erro', 'Houve um erro ao compartilhar, tente novamente mais tarde!')
+        },
         () => { }
       );
     }
@@ -86,6 +93,24 @@ export class ListsConfigComponent implements OnInit {
 
   shareList(): void {
     this.showShareModal = true;
+  }
+
+  payItem(e: Item) {
+    this.memberService.pay({
+      itemId: e.id,
+      value: e.value,
+      weight: e.weight,
+      unit: e.unit
+    }).subscribe(
+      x => {
+        this.toastService.success('Sucesso', 'Item pago com sucesso!');
+      },
+      err => {
+        if (err.error?.message != null) this.toastService.error('Erro', err.error.message)
+        else this.toastService.error('Erro', 'Houve um erro ao pagar o item, tente novamente mais tarde!')
+      },
+      () => { }
+    );
   }
 
   addItemCallback(status: 'ok' | 'cancel') {

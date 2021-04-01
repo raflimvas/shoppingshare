@@ -4,6 +4,7 @@ import { Category } from "@app/models/category.model";
 import { CategoryTemplate } from "@app/models/categoryTemplate.model";
 import { Item } from "@app/models/item.model";
 import { List } from "@app/models/list.model";
+import { Share } from "@app/models/share.model";
 import { User } from "@app/models/user.model";
 import { UserSessionService } from "@app/shared/services/usersession.service";
 import { Observable, throwError } from "rxjs";
@@ -15,14 +16,25 @@ export class MemberService {
 
   constructor(private http: HttpClient, private userSessionService: UserSessionService) { }
 
-  public share(data: User): Observable<User> {
-    delete data.password;
-    return this.http.put(
-      environment.apiEndpoint + 'user',
+  public share(data: any): Observable<any> {
+    return this.http.post(
+      environment.apiEndpoint + 'list/user',
       JSON.stringify(data),
       { observe: 'response' }
     ).pipe(
-      map(x => new User(x.body)),
+      map(x => x.body),
+      catchError(err => throwError(err))
+    );
+  }
+
+  public pay(data: any): Observable<Share> {
+    delete data.password;
+    return this.http.post(
+      environment.apiEndpoint + 'share',
+      JSON.stringify(data),
+      { observe: 'response' }
+    ).pipe(
+      map(x => new Share(x.body)),
       catchError(err => throwError(err))
     );
   }

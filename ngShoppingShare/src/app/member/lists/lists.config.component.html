@@ -29,10 +29,13 @@
     <i *ngIf="model.item.length == 0">Nenhum</i>
     <div *ngIf="model.item.length > 0" class="d-flex flex-row">
       <div class="d-flex flex-column">
-        <div class="d-flex flex-row px-3 py-1 me-2 my-1 border border-dark rounded-3 bg-white" *ngFor="let i of model.item">
+        <div class="d-flex flex-row px-3 py-2 me-2 my-1 border border-dark rounded-3 bg-white" *ngFor="let i of getListItems()">
           <span class="me-3">{{ i.name }}</span>
-          <a style="cursor: pointer;" (click)="removeItem(i.id)">
+          <a style="cursor: pointer;" class="me-2" (click)="removeItem(i.id)">
             <fa-icon class="text-danger" [icon]="xIcon"></fa-icon>
+          </a>
+          <a style="cursor: pointer;" (click)="payItem(i)">
+            <fa-icon class="text-success" [icon]="moneyIcon"></fa-icon>
           </a>
         </div>
       </div>
