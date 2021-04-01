@@ -112,16 +112,7 @@ export class ListController extends ControllerBase {
         const cone = (await this.connection);
         list = await cone
             .manager
-            .findOne(List, list.id, { relations: ['category', 'listUser'] })
-
-        const item = await cone
-            .manager
-            .find(Item, {
-                where: { list: list },
-                relations: ['share']
-            })
-
-        list.item = item;
+            .findOne(List, list.id, { relations: ['item', 'category', 'listUser'] })
 
         try {
             list.category.map((x: Category) => {
