@@ -91,25 +91,29 @@ export class ItemController extends ControllerBase {
         return this.ok(item);
     }
 
-    @HttpGet('/{id:number}')
+    @HttpGet('/list/{id:number}')
     @ProducesResponseType(ItemGetRes, StatusCodes.OK)
     @ProducesResponseType(TokenUnauthorized, StatusCodes.Unauthorized)
     @ProducesResponseType(ItemNotFound, StatusCodes.NotFound)
     @ProducesDefaultResponseType
     public async GetItem(req: Request, res: Response): Promise<ActionResult> {
 
-        let item = new Item(req.params);
-
         const cone = await this.connection
-        item = await cone
+        const list = await cone
             .manager
-            .findOne(Item, item.id, { relations: ['share', 'list', 'category'] })
+            .findOne(List,req.params.id);
+
+        const item = await cone
+            .manager
+            .findOne(Item, {
+                where: { list: list },
+                relations: ['share', 'list', 'category']
+            })
 
         if (!item) { return this.notFound({ message: 'Item não encontrado.' }); }
 
-        delete item.categoryId; delete item.listId; delete item.category.list; delete item.category.item;
-        delete item.category.listId; delete item.list.listUser; delete item.list.category; delete item.list.item;
-
+        delete item.categoryId; delete item.category.listId;delete item.category.list;delete item.category.item;
+        delete item.list; delete item.listId;
         try {
             item.share.map((x: Share) => {
                 delete x.item; delete x.user; delete x.userId; delete x.itemId;
