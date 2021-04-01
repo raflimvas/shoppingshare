@@ -19,7 +19,7 @@ import { Category } from '../models/category.model';
 import { ListCategoryNotFound, ListNotFound } from '../viewmodels/list.viewmodel';
 import { ItemDeleted, ItemGetRes, ItemNotFound, ItemPostBody, ItemPostRes, ItemPutBody } from '../viewmodels/item.viewmodel';
 import { InvalidRequest, TokenUnauthorized } from '../viewmodels/common.viewmodel';
-import { Share } from 'src/models/share.model';
+import { Share } from '../models/share.model';
 
 @ApiController('/item')
 export class ItemController extends ControllerBase {
@@ -105,23 +105,12 @@ export class ItemController extends ControllerBase {
 
         const item = await cone
             .manager
-            .findOne(Item, {
+            .find(Item, {
                 where: { list: list },
-                relations: ['share', 'list', 'category']
+                relations: ['share']
             })
 
-        if (!item) { return this.notFound({ message: 'Item não encontrado.' }); }
-
-        delete item.categoryId; delete item.category.listId;delete item.category.list;delete item.category.item;
-        delete item.list; delete item.listId;
-        try {
-            item.share.map((x: Share) => {
-                delete x.item; delete x.user; delete x.userId; delete x.itemId;
-            });
-        }
-        catch (err) { }
-
-        return this.ok(item);
+        return this.ok({item: item});
     }
 
     @HttpDelete('/{id:number}')
